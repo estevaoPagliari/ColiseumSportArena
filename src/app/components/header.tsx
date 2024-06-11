@@ -1,5 +1,4 @@
 'use client'
-
 import { useState, Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
@@ -20,10 +19,10 @@ function classNames(...classes: string[]) {
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const toggleMenu = (): void => {
     setIsOpen(!isOpen)
   }
-  toggleMenu()
 
   return (
     <Disclosure as="nav" className="bg-black fixed w-full z-50 h-16">
@@ -47,7 +46,7 @@ export function Header() {
                 <div className="flex flex-shrink-0 items-center">
                   <Image
                     className="h-14 w-auto"
-                    src="/Coliseum Sport Arena_LM12.png"
+                    src="/COL0001_Mascote_02.png"
                     alt="Your Company"
                     width={500}
                     height={500}

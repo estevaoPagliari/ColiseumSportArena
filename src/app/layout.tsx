@@ -4,6 +4,7 @@ import {
   Bai_Jamjuree as BaiJamjuree,
 } from 'next/font/google'
 import './globals.css'
+import { Header } from './components/header'
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body
         className={`${roboto.variable} ${baiJamjuree.variable} bg-gray-200 text-black`}
       >
+        <Header />
         {children}
       </body>
     </html>
