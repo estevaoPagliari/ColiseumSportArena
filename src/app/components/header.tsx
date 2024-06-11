@@ -20,9 +20,10 @@ function classNames(...classes: string[]) {
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
 
-  const toggleMenu = () => {
+  const toggleMenu = (): void => {
     setIsOpen(!isOpen)
   }
+  toggleMenu()
 
   return (
     <Disclosure as="nav" className="bg-black fixed w-full z-50 h-16">

@@ -1,7 +1,6 @@
 import Carousel from '@/app/components/carousel'
 import CarouselUnidade from '@/app/components/carouselunidade'
 import Image from 'next/image'
-import Link from 'next/link'
 
 export default function Home() {
   const slides = [
