@@ -1,6 +1,7 @@
 import Carousel from '@/app/components/carousel'
 import CarouselUnidade from '@/app/components/carouselunidade'
 import Image from 'next/image'
+import ContactForm from './components/contato'
 
 export default function Home() {
   const slides = [
@@ -71,6 +72,9 @@ export default function Home() {
           <div className="md:h-screen">
             <h1 className="text-4xl font-bold">Contato</h1>
             <p className="mt-4">Informações de contato.</p>
+            <div>
+              <ContactForm />
+            </div>
           </div>
         </section>
       </main>
