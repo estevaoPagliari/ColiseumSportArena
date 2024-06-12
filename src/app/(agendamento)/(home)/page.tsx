@@ -1,7 +1,7 @@
 import Carousel from '@/app/components/carousel'
 import CarouselUnidade from '@/app/components/carouselunidade'
 import Image from 'next/image'
-import ContactForm from './components/contato'
+import ContactForm from '../../components/contato'
 
 export default function Home() {
   const slides = [
