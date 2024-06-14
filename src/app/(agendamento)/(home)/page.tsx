@@ -59,7 +59,7 @@ export default function Home() {
                 electronic typesetting.
               </p>
             </div>
-            <div className="h-80  md:h-[500px] md:w-[720px] md:mt-2 p-2  md:mr-2 border-2 border-zinc-50 rounded-md">
+            <div className="h-80  md:h-[500px] md:w-full md:mt-2  border-2 border-zinc-50 rounded-md">
               <CarouselUnidade slides={slides} />
             </div>
           </div>

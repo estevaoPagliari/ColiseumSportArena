@@ -21,19 +21,18 @@ export default function Week() {
       <div className="grid grid-row-1">
         <div className="hidden md:flex w-screen gap-4  justify-center p-2">
           {nextSixDays.map((day, index) => (
-            <div
-              key={index}
+            <button
               className="w-52 p-4 border rounded-lg shadow-lg bg-white text-center hover:cursor-pointer hover:scale-105 transition-transform duration-300"
+              onClick={() => handleSelectDay(day)}
+              key={index}
             >
-              <button onClick={() => handleSelectDay(day)}>
-                <div className="text-lg font-semibold">
-                  {format(day, 'dd/MM/yyyy')}
-                </div>
-                <div className="text-sm text-gray-500">
-                  {format(day, 'EEEE', { locale: ptBR })}
-                </div>
-              </button>
-            </div>
+              <div className="text-lg font-alt">
+                {format(day, 'dd/MM/yyyy')}
+              </div>
+              <div className="text-sm font-sans text-gray-500">
+                {format(day, 'EEEE', { locale: ptBR })}
+              </div>
+            </button>
           ))}
         </div>
         <div className="md:hidden w-full">
@@ -73,12 +72,6 @@ export default function Week() {
               </Menu.Items>
             </Transition>
           </Menu>
-        </div>
-      </div>
-      <div className="mt-4">
-        <div className="text-lg text-gray-700">
-          {format(selectedDay, 'dd/MM/yyyy')} -{' '}
-          {format(selectedDay, 'EEEE', { locale: ptBR })}
         </div>
       </div>
     </div>
