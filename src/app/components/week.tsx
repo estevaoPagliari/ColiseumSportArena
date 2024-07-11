@@ -1,28 +1,51 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { format, addDays } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Menu, Transition } from '@headlessui/react'
 
-export default function Week() {
+interface WeekProps {
+  onDateSelected: (date: { dia: number; mes: number; ano: number }) => void
+}
+
+export default function Week({ onDateSelected }: WeekProps) {
   const today: Date = new Date()
   const nextSixDays: Date[] = Array.from({ length: 6 }, (_, i) =>
     addDays(today, i),
   )
-  const [selectedDay, setSelectedDay] = useState<Date>(nextSixDays[0])
+  const [selectedDay, setSelectedDay] = useState<Date>(today)
+
+  useEffect(() => {
+    setSelectedDay(today)
+    onDateSelected({
+      dia: today.getDate(),
+      mes: today.getMonth() + 1, // Meses em JavaScript são baseados em zero, por isso adicionamos 1
+      ano: today.getFullYear(),
+    })
+  }, [])
 
   const handleSelectDay = (day: Date) => {
     setSelectedDay(day)
+    const selectedDate = {
+      dia: day.getDate(),
+      mes: day.getMonth() + 1,
+      ano: day.getFullYear(),
+    }
+    onDateSelected(selectedDate)
   }
 
   return (
     <div className="flex flex-col items-center">
       <h1 className="hidden text-xl md:text-4xl font-alt">Agendamento</h1>
       <div className="grid grid-row-1">
-        <div className="hidden md:flex w-screen gap-4  justify-center p-2">
+        <div className="hidden md:flex w-screen gap-4 justify-center p-2">
           {nextSixDays.map((day, index) => (
             <button
-              className="w-52 p-4 border rounded-lg shadow-lg bg-white text-center hover:cursor-pointer hover:scale-105 transition-transform duration-300"
+              className={`w-52 p-4 border rounded-lg shadow-lg text-center hover:cursor-pointer hover:scale-105 transition-transform duration-300 ${
+                selectedDay.getTime() === day.getTime()
+                  ? 'bg-white text-black'
+                  : 'bg-white'
+              }`}
               onClick={() => handleSelectDay(day)}
               key={index}
             >
@@ -53,7 +76,7 @@ export default function Week() {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="absolute w-full mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Menu.Items className="relative z-10 w-full mt-2 origin-top-right font-sans bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 {nextSixDays.map((day, index) => (
                   <Menu.Item key={index}>
                     {({ active }) => (

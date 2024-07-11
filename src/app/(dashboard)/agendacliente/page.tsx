@@ -2,7 +2,6 @@
 'use client'
 import { useEffect, useState } from 'react'
 import Week from '@/app/components/week'
-
 import { NewCarrinhoDeCompras } from '@/app/components/carrinhodecompra/newcarrinhodecompra'
 import { NewDiaClient } from '@/app/components/selecaodia/newdiaclient'
 
@@ -14,7 +13,7 @@ export interface HorarioSelecionado {
   recursoId: number
 }
 
-export default function Agenda() {
+export default function AgendaClient() {
   const [selectedHorarios, setSelectedHorarios] = useState<
     HorarioSelecionado[]
   >([])

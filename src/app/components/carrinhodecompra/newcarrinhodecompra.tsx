@@ -1,9 +1,11 @@
 'use client'
+
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
+import { setCookie } from 'nookies'
 
-interface HorarioSelecionado {
+export interface HorarioSelecionado {
   dia: number
   mes: number
   ano: number
@@ -11,15 +13,13 @@ interface HorarioSelecionado {
   recursoId: number
 }
 
-interface CarrinhoDeComprasProps {
-  selectedHorarios: HorarioSelecionado[]
-  onRemove: (horario: HorarioSelecionado) => void
-}
-
-export function CarrinhoDeCompras({
+export function NewCarrinhoDeCompras({
   selectedHorarios,
   onRemove,
-}: CarrinhoDeComprasProps) {
+}: {
+  selectedHorarios: HorarioSelecionado[]
+  onRemove: (horario: HorarioSelecionado) => void
+}) {
   const [mounted, setMounted] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
@@ -34,11 +34,16 @@ export function CarrinhoDeCompras({
 
   const handleSolicitarReserva = () => {
     if (!mounted) return
+    const data = ''
+    setCookie(null, 'selectedHorarios', data, {
+      maxAge: 0, // 1 dia em segundos
+      path: '/', // caminho do cookie (no caso, o caminho raiz)
+    })
 
     const token = true // ou a forma como você está armazenando o token
 
     const expires = new Date()
-    expires.setTime(expires.getTime() + 60 * 60 * 1000) // 5 minutos em milissegundos
+    expires.setTime(expires.getTime() + 5 * 60 * 1000) // 5 minutos em milissegundos
     Cookies.set('selectedHorarios', JSON.stringify(selectedHorarios), {
       expires,
     })
@@ -51,7 +56,6 @@ export function CarrinhoDeCompras({
       router.push('/login')
     }
   }
-
   return (
     <>
       <button
@@ -60,7 +64,6 @@ export function CarrinhoDeCompras({
       >
         {isOpen ? 'Fechar Carrinho' : 'Abrir Carrinho'}
       </button>
-
       <div
         className={`fixed bottom-0 right-0 w-full rounded-xl md:w-1/3 p-4 bg-white border-t border-gray-200 shadow-lg transition-transform transform ${isOpen ? 'translate-y-0' : 'translate-y-full'}`}
       >
@@ -73,9 +76,11 @@ export function CarrinhoDeCompras({
               key={index}
               className="mt-2 flex justify-between items-center font-sans"
             >
-              <div>
-                <p>{`Horário: ${horario.horario}`}</p>
+              <div className="flex flex-col">
+                <span>{`Horário: ${horario.horario}`}</span>
+                <span>{`Data: ${horario.dia}/${horario.dia}/${horario.ano}`}</span>
               </div>
+
               <button
                 onClick={() => onRemove(horario)}
                 className="text-black text-lg rounded bg-red-600 p-2 font-semibold hover:bg-red-500"

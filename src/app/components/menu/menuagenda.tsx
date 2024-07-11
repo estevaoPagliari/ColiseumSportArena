@@ -6,17 +6,17 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 const navigation = [
-  { name: 'Home', href: '#home', current: true },
-  { name: 'Nossas Unidades', href: '#nossa-unidade', current: false },
-  { name: 'Agendamento', href: '#agendamento', current: false },
-  { name: 'Contato', href: '#contato', current: false },
+  { name: 'Home', href: '/home', current: true },
+  { name: 'Nossas Unidades', href: '/home', current: false },
+  { name: 'Agendamento', href: '/home', current: false },
+  { name: 'Contato', href: '/home', current: false },
 ]
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export function Header() {
+export function MenuAgenda() {
   const [isOpen, setIsOpen] = useState(false)
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -101,13 +101,39 @@ export function Header() {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            href="/login"
+                            href="#"
+                            className={classNames(
+                              active ? 'bg-gray-100' : '',
+                              'block px-4 py-2 text-sm text-black',
+                            )}
+                          >
+                            Seu Perfil
+                          </Link>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <Link
+                            href="#"
                             className={classNames(
                               active ? 'bg-gray-100' : '',
                               'block bg-black px-4 py-2 text-sm text-white',
                             )}
                           >
-                            Entrar
+                            Configurações
+                          </Link>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <Link
+                            href="#"
+                            className={classNames(
+                              active ? 'bg-gray-100' : '',
+                              'block px-4 py-2 text-sm text-white',
+                            )}
+                          >
+                            Sair
                           </Link>
                         )}
                       </Menu.Item>

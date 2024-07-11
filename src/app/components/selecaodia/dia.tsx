@@ -99,11 +99,11 @@ export function SelecaoDia({
         <span className="font-alt text-white z-10">Campo</span>
       </div>
 
-      <div className="flex flex-wrap md:flex-row w-full gap-1 mt-2 md:mt-0 ml-0 md:ml-2 justify-center items-center">
+      <div className="flex flex-col md:flex-row w-full gap-1 mt-2 md:mt-0 ml-0 md:ml-2 justify-center items-center">
         {horarios.map((hora) => (
           <div
             key={hora.horario}
-            className={`flex flex-col w-full md:w-[200px] h-20 justify-center items-center rounded-sm font-bold ${
+            className={`flex-grow flex w-full md:flex-col gap-1 h-20 justify-center items-center rounded-sm font-bold ${
               hora.disponibilidade === 'Vago' && !isInactive(hora)
                 ? 'hover:cursor-pointer hover:scale-105 transition-transform duration-300'
                 : 'cursor-not-allowed'
@@ -111,7 +111,9 @@ export function SelecaoDia({
             onClick={() => handleHorarioClick(hora)}
           >
             <span>{hora.horario}</span>
+            <span className="md:hidden">|</span>
             <span>{hora.valor}</span>
+            <span className="md:hidden">|</span>
             <span>{hora.disponibilidade}</span>
           </div>
         ))}

@@ -4,24 +4,32 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
 import Link from 'next/link'
+import { LogoutAdmin } from '@/api/logout/logout'
+
+type MenuClienteProps = {
+  nameuser: string
+}
 
 const navigation = [
-  { name: 'Home', href: '#home', current: true },
-  { name: 'Nossas Unidades', href: '#nossa-unidade', current: false },
-  { name: 'Agendamento', href: '#agendamento', current: false },
-  { name: 'Contato', href: '#contato', current: false },
+  { name: 'Home', href: '/admin', current: true },
+  { name: 'Historio', href: '/historico', current: false },
+  { name: 'Configuração', href: '#', current: false },
 ]
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export function Header() {
+export function MenuAdmin({ nameuser }: MenuClienteProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const toggleMenu = (): void => {
     setIsOpen(!isOpen)
+  }
+
+  const logout = () => {
+    LogoutAdmin()
   }
 
   return (
@@ -74,6 +82,10 @@ export function Header() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                <span className="hidden md:block md:text-white font-alt">
+                  Bem vindo {nameuser}!
+                </span>
+
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
                   <div>
@@ -102,12 +114,13 @@ export function Header() {
                         {({ active }) => (
                           <Link
                             href="/login"
+                            onClick={logout}
                             className={classNames(
                               active ? 'bg-gray-100' : '',
-                              'block bg-black px-4 py-2 text-sm text-white',
+                              'block px-4 py-2 text-sm text-black',
                             )}
                           >
-                            Entrar
+                            Sair
                           </Link>
                         )}
                       </Menu.Item>

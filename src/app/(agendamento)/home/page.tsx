@@ -4,7 +4,7 @@ import Image from 'next/image'
 import ContactForm from '../../components/contato'
 import Link from 'next/link'
 
-export default function Home() {
+export default function HomePage() {
   const slides = [
     '/COL0001_Mascote_02.png',
     '/COL0001_Mascote_CMYK_01 OUTRA.jpg',

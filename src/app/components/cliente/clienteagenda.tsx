@@ -14,7 +14,7 @@ export interface HorarioSelecionado {
   recursoId: number
 }
 
-export default function Agenda() {
+export default function ComponeteAgendaClient() {
   const [selectedHorarios, setSelectedHorarios] = useState<
     HorarioSelecionado[]
   >([])

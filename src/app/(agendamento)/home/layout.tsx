@@ -3,7 +3,7 @@ import {
   Roboto_Flex as Roboto,
   Bai_Jamjuree as BaiJamjuree,
 } from 'next/font/google'
-import { Header } from '../components/header'
+import { Header } from '../../components/header'
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -15,11 +15,7 @@ const baiJamjuree = BaiJamjuree({
   variable: '--font-Bai-Jamjuree',
 })
 
-export default function AgendamentoLayout({
-  children,
-}: {
-  children: ReactNode
-}) {
+export default function HomeLayout({ children }: { children: ReactNode }) {
   return (
     <div
       className={`${roboto.variable} ${baiJamjuree.variable} bg-gray-200 text-black `}
