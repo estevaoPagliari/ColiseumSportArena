@@ -1,14 +1,21 @@
 'use client'
 import { BuscarHistorico } from '@/api/user/agenda/historicoback'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { AgendaNew } from '@/api/interface/InterAgenda'
+
+type SortDirection = 'ascending' | 'descending'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getNestedValue(obj: any, path: string) {
+  return path.split('.').reduce((acc, part) => acc && acc[part], obj)
+}
 
 export function HistoricoComponenteAdmin({ id }: { id: string }) {
   const [data, setData] = useState<AgendaNew[]>([])
   const [originalData, setOriginalData] = useState<AgendaNew[]>([])
   const [sortConfig, setSortConfig] = useState<{
-    key: keyof AgendaNew
-    direction: 'ascending' | 'descending'
+    key: string
+    direction: SortDirection
   } | null>(null)
   const [selectedOption, setSelectedOption] = useState<string>('horario')
   const [searchTerm, setSearchTerm] = useState<string>('')
@@ -17,21 +24,23 @@ export function HistoricoComponenteAdmin({ id }: { id: string }) {
     try {
       const response = await BuscarHistorico()
       setData(response)
-      setOriginalData(response)
       console.log(id)
+      setOriginalData(response)
     } catch (error) {
       console.error('Erro ao buscar histórico:', error)
     }
   }
 
-  const sortedData = React.useMemo(() => {
+  const sortedData = useMemo(() => {
     const sortableData = [...data]
     if (sortConfig !== null) {
       sortableData.sort((a, b) => {
-        if (a[sortConfig.key] < b[sortConfig.key]) {
+        const aValue = getNestedValue(a, sortConfig.key)
+        const bValue = getNestedValue(b, sortConfig.key)
+        if (aValue < bValue) {
           return sortConfig.direction === 'ascending' ? -1 : 1
         }
-        if (a[sortConfig.key] > b[sortConfig.key]) {
+        if (aValue > bValue) {
           return sortConfig.direction === 'ascending' ? 1 : -1
         }
         return 0
@@ -40,8 +49,8 @@ export function HistoricoComponenteAdmin({ id }: { id: string }) {
     return sortableData
   }, [data, sortConfig])
 
-  const requestSort = (key: keyof AgendaNew) => {
-    let direction: 'ascending' | 'descending' = 'ascending'
+  const requestSort = (key: string) => {
+    let direction: SortDirection = 'ascending'
     if (
       sortConfig &&
       sortConfig.key === key &&
@@ -54,21 +63,9 @@ export function HistoricoComponenteAdmin({ id }: { id: string }) {
 
   const handleSearch = () => {
     const filteredData = originalData.filter((item) => {
-      const selectedOptionParts = selectedOption.split('.')
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      let value: any = item
-
-      for (let i = 0; i < selectedOptionParts.length; i++) {
-        const currentPart = selectedOptionParts[i]
-        value = value[currentPart as keyof typeof value]
-        if (value === undefined) {
-          break
-        }
-      }
-
+      const value = getNestedValue(item, selectedOption)
       if (typeof value === 'string') {
-        value = value.toLowerCase()
-        return value.includes(searchTerm.toLowerCase())
+        return value.toLowerCase().includes(searchTerm.toLowerCase())
       }
       return false
     })
@@ -93,7 +90,7 @@ export function HistoricoComponenteAdmin({ id }: { id: string }) {
           onChange={(e) => setSelectedOption(e.target.value)}
         >
           <option value="horario">Horário</option>
-          <option value="recurso.nome">Recurso</option>
+          <option value="Recurso.nome">Recurso</option>
           <option value="dia">Dia</option>
           <option value="mes">Mês</option>
           <option value="ano">Ano</option>
@@ -170,14 +167,14 @@ export function HistoricoComponenteAdmin({ id }: { id: string }) {
                     {item.horario}
                   </td>
                   <td className="px-2 py-4 whitespace-nowrap">
-                    {item.Recurso.nome}
+                    {getNestedValue(item, 'Recurso.nome')}
                   </td>
                   <td className="px-2 py-4 whitespace-nowrap">{`${item.dia}/${item.mes}/${item.ano}`}</td>
                   <td className="px-2 py-4 whitespace-nowrap">
-                    {item.Cliente.nome}
+                    {getNestedValue(item, 'Cliente.nome')}
                   </td>
                   <td className="px-2 py-4 whitespace-nowrap">
-                    {item.Cliente.cpf}
+                    {getNestedValue(item, 'Cliente.cpf')}
                   </td>
                 </tr>
               ))
