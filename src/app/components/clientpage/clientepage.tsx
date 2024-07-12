@@ -13,7 +13,6 @@ export function ClientPage({ id }: { id: string }) {
     try {
       const response = await buscaragendacliente({ id })
       setAgenda(response)
-      console.log(response)
     } catch (error) {
       console.error('Erro ao buscar agenda do cliente:', error)
     } finally {

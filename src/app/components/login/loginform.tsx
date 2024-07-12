@@ -19,6 +19,8 @@ const schema = yup.object({
 
 export default function LoginComponents() {
   const [isLoading, setIsLoading] = useState(false)
+  const [messageerro, setMessageerro] = useState('')
+
   const router = useRouter()
   const {
     control,
@@ -42,11 +44,15 @@ export default function LoginComponents() {
 
   async function handleCreateUser(data: FormData): Promise<void> {
     setIsLoading(true)
+    setMessageerro('')
     const { email, senha } = data
-    console.log(email, senha)
-    const IsAuthenticated = await handleOAuthCodeClient(email, senha)
-    if (IsAuthenticated) {
+    const response = await handleOAuthCodeClient(email, senha)
+
+    if (response.status === 200) {
       router.push('/cliente')
+    } else {
+      setIsLoading(false)
+      setMessageerro(response.message)
     }
   }
   return (
@@ -112,6 +118,14 @@ export default function LoginComponents() {
           <Link href={'/registrar'} className="mt-4 text-center font-alt">
             Registra-se
           </Link>
+          {messageerro && (
+            <div
+              className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4"
+              role="alert"
+            >
+              <strong className="font-bold">{messageerro}</strong>
+            </div>
+          )}
         </div>
       </div>
     </div>

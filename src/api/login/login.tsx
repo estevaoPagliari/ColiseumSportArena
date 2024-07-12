@@ -36,9 +36,24 @@ export async function handleOAuthCodeClient(email: string, senha: string) {
       path: '/', // caminho do cookie (no caso, o caminho raiz)
     })
 
-    return true
-  } catch (error) {
-    console.error('Status do erro:', error)
-    return false
+    return {
+      status: response.status,
+      data: response.data,
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    if (error.response) {
+      // Se houver resposta de erro do servidor, retorna apenas o status e a mensagem de erro
+      return {
+        status: error.response.status,
+        message: error.response.data.message,
+      }
+    } else {
+      // Erro durante a requisição, retorna status 500 e uma mensagem genérica
+      return {
+        status: 500,
+        message: 'Erro ao criar usuário.',
+      }
+    }
   }
 }

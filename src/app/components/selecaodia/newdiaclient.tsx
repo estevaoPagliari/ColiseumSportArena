@@ -301,7 +301,9 @@ export function NewDiaClient({
                   ? 'hover:cursor-pointer hover:scale-105 transition-transform duration-300'
                   : 'cursor-not-allowed'
               }`}
-              onClick={() => handleSelectHorario(appointment)}
+              onClick={() => {
+                handleSelectHorario(appointment)
+              }}
               disabled={isInactive(appointment)}
             >
               <span>{appointment.horario}</span>
