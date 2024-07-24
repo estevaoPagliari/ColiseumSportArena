@@ -3,6 +3,7 @@ import CarouselUnidade from '@/app/components/carouselunidade'
 import Image from 'next/image'
 import ContactForm from '../../components/contato'
 import Link from 'next/link'
+import { FooterComponents } from '@/app/components/footer/footer'
 
 export default function HomePage() {
   const slides = [
@@ -98,6 +99,14 @@ export default function HomePage() {
             <p className="mt-4">Informações de contato.</p>
             <div>
               <ContactForm />
+            </div>
+          </div>
+        </section>
+
+        <section id="footer" className="pt-5 bg-zinc-900 ">
+          <div className="h-auto px-2">
+            <div>
+              <FooterComponents />
             </div>
           </div>
         </section>
