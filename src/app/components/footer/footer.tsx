@@ -20,8 +20,8 @@ export function FooterComponents() {
             <div className="border-b border-gray-100">
               <span className="font-alt">Informações</span>
             </div>
-            <div className="text-sm space-y-2">
-              <div className="space-y-1">
+            <div className="text-sm space-y-2 gap-2">
+              <div className="flex flex-1 gap-2">
                 <span>Cidade: PORTO FERREIRA</span>
                 <span>Endereço: VIA SYRIO IGNATIOS nº: 1894</span>
                 <span>Bairro: Chacaras Aeroporto </span>
