@@ -57,7 +57,7 @@ export default function HomePage() {
                 momentos agradáveis e descontraídos.
               </p>
             </div>
-            <div className="h-80  md:h-[500px] md:w-full md:mt-2  border-2 border-zinc-50 rounded-md">
+            <div className="h-64  md:h-[500px] md:w-full md:mt-2  border-2 border-zinc-50 rounded-md">
               <CarouselUnidade slides={slide2} />
             </div>
           </div>

@@ -10,7 +10,7 @@ interface CarouselProps {
   slides: string[]
 }
 
-const CarouselUnidade: React.FC<CarouselProps> = ({ slides }) => {
+const CarouselUnidades: React.FC<CarouselProps> = ({ slides }) => {
   const [current, setCurrent] = useState<number>(0)
 
   const previousSlide = (): void => {
@@ -34,11 +34,10 @@ const CarouselUnidade: React.FC<CarouselProps> = ({ slides }) => {
         {slides.map((s, index) => (
           <div key={index} className="relative h-screen w-full flex-shrink-0">
             <Image
-              className="rounded-md"
               src={s}
-              width={2000}
-              height={2000}
-              quality={50}
+              layout="fill"
+              objectFit="contain"
+              quality={100}
               alt={`slide-${index}`}
             />
           </div>
@@ -71,4 +70,4 @@ const CarouselUnidade: React.FC<CarouselProps> = ({ slides }) => {
   )
 }
 
-export default CarouselUnidade
+export default Carousel
