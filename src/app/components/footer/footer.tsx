@@ -33,7 +33,7 @@ export function FooterComponents() {
               </div>
               <div className="space-y-1">
                 <span>Telefone: (19)-998539697 </span>
-                <span>E-mail: comercial@viasudestetransportes.com.br</span>
+                <span>E-mail: sportarenacoliseum@gmail.com</span>
               </div>
             </div>
           </div>
