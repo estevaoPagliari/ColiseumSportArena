@@ -12,6 +12,12 @@ export default function HomePage() {
     '/Coliseum Sport Arena_LM12.png',
     '/9000164-bandeira-de-bola-com-campo-de-futebol-verde-vetor.jpg',
   ]
+
+  const slide2 = [
+    '/fotos/aee0624d-db05-4ba0-9360-06ffd3f4f970.jpg',
+    '/fotos/e2f38e57-13f1-4c81-a127-b540020a55fd.jpg',
+    '/fotos/IMG_8199.jpg',
+  ]
   return (
     <div>
       <main className="">
@@ -23,45 +29,36 @@ export default function HomePage() {
           <div className="grid pb-4 grid-cols-1 md:grid-cols-2 md:h-screen text-white">
             <div className="px-4">
               <h1 className="text-4xl font-alt">Nossa Unidade</h1>
-              <p className="mt-4 text-justify">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry standard dummy text
-                ever since the 1500s, when an unknown printer took a galley of
-                type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Aldus PageMaker including versions of
-                Lorem Ipsum.
+              <p className="mt-4 text-justify font-sans">
+                Conheça o Coliseum Sport Arena, onde diversão, esporte e
+                confraternização se encontram em um só lugar! Oferecemos a
+                estrutura ideal para você, seus amigos e sua família
+                aproveitarem momentos inesquecíveis. Conheça nossas instalações
+                e prepare-se para viver experiências únicas!
               </p>
-              <p className="mt-4 text-justify">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry standard dummy text
-                ever since the 1500s, when an unknown printer took a galley of
-                type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting.
+              <h3 className="text-4xl font-alt">O que oferecemos:</h3>
+              <p className="mt-4 text-justify font-sans">
+                ⚽ Dois Campos de Futebol: Nossos campos são perfeitos para
+                jogos entre amigos, torneios e eventos esportivos. Com grama
+                sintética de alta qualidade, você desfrutará de partidas
+                emocionantes e confortáveis, seja dia ou noite.
               </p>
-              <p className="mt-4 text-justify">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry standard dummy text
-                ever since the 1500s, when an unknown printer took a galley of
-                type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting.
+              <p className="mt-4 text-justify font-sans">
+                🏖️ Quadra de Beach Tênis na Areia: Sinta a vibração do esporte
+                de praia em nossa quadra de areia. Ideal para praticar o beach
+                tênis com os amigos, melhorar suas habilidades e se divertir sob
+                o sol
               </p>
-              <p className="mt-4 text-justify">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry standard dummy text
-                ever since the 1500s, when an unknown printer took a galley of
-                type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting.
+              <p className="mt-4 text-justify font-sans">
+                🔥 Área de Churrasqueira: Após uma partida acirrada ou
+                simplesmente para um encontro social, nossa área de
+                churrasqueira é o lugar perfeito para relaxar e saborear um
+                delicioso churrasco. Com espaço amplo e confortável, você terá
+                momentos agradáveis e descontraídos.
               </p>
             </div>
             <div className="h-80  md:h-[500px] md:w-full md:mt-2  border-2 border-zinc-50 rounded-md">
-              <CarouselUnidade slides={slides} />
+              <CarouselUnidade slides={slide2} />
             </div>
           </div>
         </section>
@@ -70,11 +67,12 @@ export default function HomePage() {
           <div className="flex flex-col h-screen  md:h-screen items-center focus:cursor-pointer">
             <div className="">
               <h1 className="text-4xl font-alt text-center">Agendamento</h1>
-              <p className="mt-4 text-justify px-4">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry standard dummy text
-                ever since the 1500s, when an unknown printer took a galley of
-                type and scrambled it to make a type specimen book.
+              <p className="mt-4 text-justify px-4 font-sans ">
+                Agende Online no Coliseum Sport Arena: Rápido, Fácil e Prático!
+                Quer garantir o seu espaço no melhor centro esportivo da região?
+                No Coliseum Sport Arena agora, você pode reservar nossos campos
+                de futebol, a quadra de beach tênis ou a área de churrasqueira
+                diretamente pelo nosso site!
               </p>
             </div>
             <Image
