@@ -22,6 +22,7 @@ export function ComponeteAgendaClient() {
     dia: number
     mes: number
     ano: number
+    semana: string
   } | null>(null)
   const [activeResourceId, setActiveResourceId] = useState<number | null>(0)
 
@@ -29,6 +30,7 @@ export function ComponeteAgendaClient() {
     dia: number
     mes: number
     ano: number
+    semana: string
   }) => {
     setSelectedDate(date)
     setSelectedHorarios([]) // Limpa os horários selecionados ao mudar a data
