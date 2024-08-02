@@ -15,7 +15,12 @@ import {
   FaRegArrowAltCircleRight,
 } from 'react-icons/fa'
 interface CalendarioProps {
-  onDataSelecionada: (data: { dia: number; mes: number; ano: number }) => void
+  onDataSelecionada: (data: {
+    dia: number
+    mes: number
+    ano: number
+    semana: string
+  }) => void
 }
 
 export function Calendario({ onDataSelecionada }: CalendarioProps) {
@@ -24,13 +29,21 @@ export function Calendario({ onDataSelecionada }: CalendarioProps) {
     dia: number | null
     mes: number | null
     ano: number | null
-  }>({ dia: null, mes: null, ano: null })
+    semana: string
+  }>({ dia: null, mes: null, ano: null, semana: '' })
 
   useEffect(() => {
-    const diaAtual = new Date().getDate()
-    const mesAtual = new Date().getMonth() + 1
-    const anoAtual = new Date().getFullYear()
-    setDataSelecionada({ dia: diaAtual, mes: mesAtual, ano: anoAtual })
+    const dataAtual = new Date()
+    const diaSemana = dataAtual.toLocaleDateString('pt-BR', { weekday: 'long' })
+    const diaAtual = dataAtual.getDate()
+    const mesAtual = dataAtual.getMonth() + 1
+    const anoAtual = dataAtual.getFullYear()
+    setDataSelecionada({
+      dia: diaAtual,
+      mes: mesAtual,
+      ano: anoAtual,
+      semana: diaSemana,
+    })
   }, [])
 
   const diasDoMes = eachDayOfInterval({
@@ -51,8 +64,10 @@ export function Calendario({ onDataSelecionada }: CalendarioProps) {
   const handleNumeroClick = (dia: number) => {
     const mes = currentDate.getMonth() + 1 // Mês é baseado em zero, então adicionamos 1
     const ano = currentDate.getFullYear()
-    setDataSelecionada({ dia, mes, ano })
-    onDataSelecionada({ dia, mes, ano })
+    const data = new Date(ano, mes - 1, dia)
+    const semana = data.toLocaleDateString('pt-BR', { weekday: 'long' })
+    setDataSelecionada({ dia, mes, ano, semana })
+    onDataSelecionada({ dia, mes, ano, semana })
   }
 
   return (

@@ -5,6 +5,7 @@ import { HorarioFuncionamento } from '@/api/interface/InterHorarioFuncionamento'
 import { BuscarHorario } from '@/api/user/horario/buscarhorario'
 import { SetStateAction, useEffect, useState } from 'react'
 import { Modal } from '../modal/Modal'
+import { ModalBloquearDia } from '../modal/ModalBloquearDia'
 
 let openingTime = ''
 let closingTime = ''
@@ -12,7 +13,12 @@ let lunchStart = ''
 let lunchEnd = ''
 
 interface DiaSelecionado {
-  dataSelecionada: { dia: number; mes: number; ano: number } | null
+  dataSelecionada: {
+    dia: number
+    mes: number
+    ano: number
+    semana: string
+  } | null
 }
 
 export function DiaAdmin({
@@ -66,25 +72,39 @@ export function DiaAdmin({
     }
   }
 
-  /*
-  async function onAppointmentCancelled() {
-    await fetchAppointments()
-  }
-  */
   useEffect(() => {
     fetchUserHorario()
   }, [])
 
   useEffect(() => {
-    if (userHorario[0] !== undefined) {
+    if (userHorario[0] !== undefined && dataSelecionada?.semana !== 'sábado') {
+      openingTime = userHorario[0].horarioAbertura
+      closingTime = userHorario[0].horarioFechamento
+      lunchStart = userHorario[0].horarioAlmocoInicio
+      lunchEnd = userHorario[0].horarioAlmocoFim
+    } else if (
+      userHorario[0] !== undefined &&
+      dataSelecionada?.semana === 'sábado'
+    ) {
+      openingTime = userHorario[0].horarioAberturasabado
+      closingTime = userHorario[0].horarioFechamentosabado
+    }
+    console.log('foi executadfo')
+  }, [userHorario[0]])
+
+  useEffect(() => {
+    if (userHorario[0] !== undefined && dataSelecionada?.semana === 'sábado') {
+      openingTime = userHorario[0].horarioAberturasabado
+      closingTime = userHorario[0].horarioFechamentosabado
+    } else if (
+      userHorario[0] !== undefined &&
+      dataSelecionada?.semana !== 'sábado'
+    ) {
       openingTime = userHorario[0].horarioAbertura
       closingTime = userHorario[0].horarioFechamento
       lunchStart = userHorario[0].horarioAlmocoInicio
       lunchEnd = userHorario[0].horarioAlmocoFim
     }
-  }, [userHorario[0]])
-
-  useEffect(() => {
     fetchAppointments()
   }, [dataSelecionada?.dia])
 
@@ -206,6 +226,15 @@ export function DiaAdmin({
     allAppointments.map(() => false),
   )
 
+  const [isModalVisibleBlock, setModalVisibleBlock] = useState<boolean>(false)
+
+  const handleOpenModalBlock = () => {
+    setModalVisibleBlock(true)
+  }
+  const handleCloseModalBlock = () => {
+    setModalVisibleBlock(false)
+  }
+
   const handleOpenModal = (index: number) => {
     setModalVisible((prev) => {
       const newState = [...prev]
@@ -239,6 +268,28 @@ export function DiaAdmin({
           </span>
         </div>
 
+        <div className="flex flex-col md:flex-row w-full gap-1 justify-center items-center">
+          <button
+            onClick={() => handleOpenModalBlock()}
+            className="flex p-2 bg-red-500 rounded-md font-sans text-xl hover:scale-105"
+          >
+            Desabilitar Dia
+          </button>
+          <ModalBloquearDia
+            isVisible={isModalVisibleBlock}
+            onClose={() => handleCloseModalBlock()}
+            estabelecimentoId={id}
+            dia={dataSelecionada?.dia ?? null}
+            mes={dataSelecionada?.mes ?? null}
+            ano={dataSelecionada?.ano ?? null}
+            tiposervico={1}
+            recursoId2={2}
+            recursoId1={1}
+            clienteid={2}
+            onAppointmentCancelled={() => onAppointmentCancelled()}
+          />
+        </div>
+
         <div className="flex flex-col w-40 md:w-full justify-center items-center gap-2 font-sans">
           <div
             className={`flex w-full justify-center items-center rounded-sm cursor-pointer ${
@@ -246,7 +297,7 @@ export function DiaAdmin({
             }`}
             onClick={() => handleSelect(1)}
           >
-            Campo 1
+            La Bombonera
           </div>
           <div
             className={`flex w-full justify-center items-center rounded-sm cursor-pointer ${
@@ -254,7 +305,7 @@ export function DiaAdmin({
             }`}
             onClick={() => handleSelect(2)}
           >
-            Campo 2
+            Arena Da Baixada
           </div>
         </div>
       </div>

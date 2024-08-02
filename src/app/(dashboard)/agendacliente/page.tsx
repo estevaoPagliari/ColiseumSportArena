@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-comment-textnodes */
 'use client'
 import { useEffect, useState } from 'react'
 import Week from '@/app/components/week'
@@ -23,12 +22,15 @@ export default function AgendaClient() {
     dia: number
     mes: number
     ano: number
+    semana: string
   } | null>(null)
+  const [activeResourceId, setActiveResourceId] = useState<number | null>(0)
 
   const handleDateSelected = (date: {
     dia: number
     mes: number
     ano: number
+    semana: string
   }) => {
     setSelectedDate(date)
     setSelectedHorarios([]) // Limpa os horários selecionados ao mudar a data
@@ -36,25 +38,35 @@ export default function AgendaClient() {
   }
 
   const handleHorarioSelecionado = (horario: HorarioSelecionado) => {
+    console.log(horario.recursoId)
     setHorarioSelecionado(horario)
     setSelectedHorarios([...selectedHorarios, horario]) // Adiciona o horário selecionado à lista
+    setActiveResourceId(horario.recursoId) // Ativa o recurso associado
   }
 
   const handleRemove = (horario: HorarioSelecionado) => {
     const novosHorarios = selectedHorarios.filter(
       (h) => h.horario !== horario.horario,
     )
-    console.log(horarioSelecionado)
     setSelectedHorarios(novosHorarios)
+    setActiveResourceId(null) // Desativa o recurso ao remover um item
   }
 
   useEffect(() => {
     const limparHorariosSelecionados = () => {
       setSelectedHorarios([])
+      setActiveResourceId(null) // Garante que nenhum recurso esteja ativo ao montar o componente
     }
 
     limparHorariosSelecionados() // Chama a função ao montar o componente
   }, [])
+
+  useEffect(() => {
+    setActiveResourceId(0) // Garante que nenhum recurso esteja ativo ao montar o componente
+  }, [])
+
+  console.log(horarioSelecionado)
+  console.log('teste', activeResourceId)
 
   return (
     <div className="pt-16">
@@ -69,6 +81,7 @@ export default function AgendaClient() {
           idrecurso={1}
           onHorarioSelecionado={handleHorarioSelecionado}
           selectedHorarios={selectedHorarios}
+          isActive={activeResourceId !== 2} // Controle de ativação
         />
         <NewDiaClient
           id={'1'}
@@ -76,6 +89,7 @@ export default function AgendaClient() {
           idrecurso={2}
           onHorarioSelecionado={handleHorarioSelecionado}
           selectedHorarios={selectedHorarios}
+          isActive={activeResourceId !== 1} // Controle de ativação
         />
       </div>
 

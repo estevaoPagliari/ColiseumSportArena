@@ -39,17 +39,24 @@ export function FooterComponents() {
           </div>
         </div>
       </div>
-      <div className="flex justify-center items-center text-black bg-zinc-100 p-2 mt-3">
-        <Link href={''}>
+      <div className="flex flex-col justify-center items-center text-black  mt-3">
+        <Link
+          href={'https://devnex.com.br'}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <Image
-            className="p-2"
-            src={'/devnex.png'}
+            className="p-0.5"
+            src={'/Logo.fundo.transparente.png'}
             alt={'Devnex Logo'}
             width={50}
             height={50}
             quality={30}
           />
         </Link>
+        <span className="font-sans text-zinc-900 px-2">
+          Copyright © Todos os Direitos Reservados.
+        </span>
       </div>
     </div>
   )

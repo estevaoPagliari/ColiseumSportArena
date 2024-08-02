@@ -71,11 +71,11 @@ export function ReservarPage({
             Campo:
             {horarioSelecionado.recursoId === 1 ? (
               <div>
-                <span> Campo 1</span>
+                <span> La Bomboneira</span>
               </div>
             ) : (
               <div>
-                <span>Campo 2</span>
+                <span>Arena da Baixada</span>
               </div>
             )}
           </span>

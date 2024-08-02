@@ -6,6 +6,9 @@ export interface HorarioFuncionamento {
   horarioAlmocoInicio: string // String
   horarioAlmocoFim: string // String
   horarioFechamento: string // String
+  horarioAberturasabado: string // Correspondente ao String no Prisma
+  horarioAlmocosabado: string // Correspondente ao String no Prisma
+  horarioFechamentosabado: string // Correspondente ao String no Prisma
   estabelecimentoId: number // Int
   Estabelecimento: userEstabelecimento[] // Relacionamento com UserEstabelecimento
 }

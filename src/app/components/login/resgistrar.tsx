@@ -11,31 +11,48 @@ import axios from 'axios' // Importe o Axios
 
 // Definindo o schema de validação
 const schema = yup.object({
-  email: yup.string().email('Email Invalido').required('Campo obrigatório'),
+  email: yup.string().email('Email Inválido').required('Campo obrigatório'),
+
   nome: yup.string().required('Campo obrigatório'),
+
   senha: yup
     .string()
-    .min(8, 'A senha deve ter no minimo 8 caracteres')
+    .min(8, 'A senha deve ter no mínimo 8 caracteres')
     .required('Campo obrigatório'),
+
   confirmacaoSenha: yup
     .string()
     .oneOf([yup.ref('senha')], 'As senhas devem corresponder')
     .required('Campo obrigatório'),
+
   cpf: yup
     .string()
-    .typeError('CPF deve ser um número')
+    .matches(/^\d{11}$/, 'CPF deve conter exatamente 11 dígitos numéricos')
     .required('Campo obrigatório'),
+
   telefone: yup
     .string()
-    .typeError('Telefone deve ser um número')
+    .matches(
+      /^\d{10,11}$/,
+      'Telefone deve conter exatamente 10 ou 11 dígitos numéricos',
+    )
     .required('Campo obrigatório'),
+
   endereco: yup.object({
     estado: yup.string().required('Campo obrigatório'),
+
     cidade: yup.string().required('Campo obrigatório'),
+
     rua: yup.string().required('Campo obrigatório'),
+
     numero: yup.string().required('Campo obrigatório'),
+
     complemento: yup.string().optional(),
-    cep: yup.string().required('Campo obrigatório'),
+
+    cep: yup
+      .string()
+      .matches(/^\d{8}$/, 'CEP deve conter exatamente 8 dígitos numéricos')
+      .required('Campo obrigatório'),
   }),
 })
 
@@ -133,7 +150,7 @@ export default function RegistrarFrom() {
           <div className="text-xl font-alt">Crie sua conta</div>
         </div>
 
-        <div className="flex flex-col gap-4 font-sans">
+        <div className="flex flex-col gap-2 font-sans">
           <Controller
             control={control}
             name="email"
@@ -148,6 +165,7 @@ export default function RegistrarFrom() {
               />
             )}
           />
+          <span className="text-xs font-sans">*E-mail deve ser único</span>
           {errors.email && (
             <span className="text-red-500">{errors.email?.message}</span>
           )}
@@ -240,6 +258,9 @@ export default function RegistrarFrom() {
               />
             )}
           />
+          <span className="text-xs font-sans">
+            *Digite seu cpf sem traços e pontos
+          </span>
           {errors.cpf && (
             <span className="text-red-500">{errors.cpf?.message}</span>
           )}
@@ -258,6 +279,9 @@ export default function RegistrarFrom() {
               />
             )}
           />
+          <span className="text-xs font-sans">
+            *Digite seu telefone com o DDD sem traços ou pontos
+          </span>
           {errors.telefone && (
             <span className="text-red-500">{errors.telefone?.message}</span>
           )}
@@ -279,6 +303,9 @@ export default function RegistrarFrom() {
               />
             )}
           />
+          <span className="text-xs font-sans">
+            *Digite seu CEP sem traços ou pontos
+          </span>
           {errors.endereco?.cep && (
             <span className="text-red-500">{errors.endereco.cep?.message}</span>
           )}

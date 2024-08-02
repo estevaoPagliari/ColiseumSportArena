@@ -52,14 +52,16 @@ export function MenuAdmin({ nameuser }: MenuClienteProps) {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <Image
-                    className="h-14 w-auto"
-                    src="/COL0001_Mascote_02.png"
-                    alt="Your Company"
-                    width={500}
-                    height={500}
-                    quality={100}
-                  />
+                  <Link href={'/home'}>
+                    <Image
+                      className="h-14 w-auto"
+                      src="/Coliseum Sport Arena_LM12.png"
+                      alt="Your Company"
+                      width={500}
+                      height={500}
+                      quality={100}
+                    />
+                  </Link>
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4 mt-3 font-alt">

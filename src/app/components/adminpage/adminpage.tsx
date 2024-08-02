@@ -8,21 +8,30 @@ export function AdminPage({ id }: { id: string }) {
     dia: number
     mes: number
     ano: number
+    semana: string
   } | null>(null)
 
   const handleDataSelecionada = (data: {
     dia: number
     mes: number
     ano: number
+    semana: string
   }) => {
     setDataSelecionada(data)
   }
 
   useEffect(() => {
-    const diaAtual = new Date().getDate()
-    const mesAtual = new Date().getMonth() + 1
-    const anoAtual = new Date().getFullYear()
-    setDataSelecionada({ dia: diaAtual, mes: mesAtual, ano: anoAtual })
+    const dataAtual = new Date()
+    const diaSemana = dataAtual.toLocaleDateString('pt-BR', { weekday: 'long' })
+    const diaAtual = dataAtual.getDate()
+    const mesAtual = dataAtual.getMonth() + 1
+    const anoAtual = dataAtual.getFullYear()
+    setDataSelecionada({
+      dia: diaAtual,
+      mes: mesAtual,
+      ano: anoAtual,
+      semana: diaSemana,
+    })
   }, [])
   return (
     <div className="grid md:grid-cols-6 pt-16">

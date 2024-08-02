@@ -5,30 +5,39 @@ import { ptBR } from 'date-fns/locale'
 import { Menu, Transition } from '@headlessui/react'
 
 interface WeekProps {
-  onDateSelected: (date: { dia: number; mes: number; ano: number }) => void
+  onDateSelected: (date: {
+    dia: number
+    mes: number
+    semana: string
+    ano: number
+  }) => void
 }
 
 export default function Week({ onDateSelected }: WeekProps) {
   const today: Date = new Date()
-  const nextSixDays: Date[] = Array.from({ length: 6 }, (_, i) =>
+  const nextSixDays: Date[] = Array.from({ length: 8 }, (_, i) =>
     addDays(today, i),
   )
   const [selectedDay, setSelectedDay] = useState<Date>(today)
 
   useEffect(() => {
+    const diaSemana = today.toLocaleDateString('pt-BR', { weekday: 'long' })
     setSelectedDay(today)
     onDateSelected({
       dia: today.getDate(),
       mes: today.getMonth() + 1, // Meses em JavaScript são baseados em zero, por isso adicionamos 1
+      semana: diaSemana,
       ano: today.getFullYear(),
     })
   }, [])
 
   const handleSelectDay = (day: Date) => {
+    const diaSemana = day.toLocaleDateString('pt-BR', { weekday: 'long' })
     setSelectedDay(day)
     const selectedDate = {
       dia: day.getDate(),
       mes: day.getMonth() + 1,
+      semana: diaSemana,
       ano: day.getFullYear(),
     }
     onDateSelected(selectedDate)

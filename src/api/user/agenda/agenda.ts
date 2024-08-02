@@ -1,3 +1,4 @@
+/* eslint-disable no-unmodified-loop-condition */
 import { api } from '@/api/api'
 
 export async function buscaragendadia(id: string, dia: string, mes: string) {
@@ -42,6 +43,37 @@ export async function CriarAgendamento(
       tipoServicoId,
       clienteId,
       recursoId,
+    })
+    console.log(response.data)
+
+    return response.data
+  } catch (error) {
+    console.error('Status do erro:', error)
+    return false
+  }
+}
+
+export async function BloquearDia(
+  dia: number | null, // Validar se é um email válido
+  mes: number | null,
+  ano: number | null,
+  estabelecimentoId: number | null,
+  tipoServicoId: number | null,
+  clienteId: number | null,
+  recursoId: number | null,
+  recursoId2: number | null,
+) {
+  try {
+    console.log('teste')
+    const response = await api.post('/bloqueardia', {
+      dia,
+      mes,
+      ano,
+      estabelecimentoId,
+      tipoServicoId,
+      clienteId,
+      recursoId,
+      recursoId2,
     })
     console.log(response.data)
 

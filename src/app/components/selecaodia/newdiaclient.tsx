@@ -13,7 +13,12 @@ let lunchStart = ''
 let lunchEnd = ''
 
 interface DiaSelecionado {
-  dataSelecionada: { dia: number; mes: number; ano: number } | null
+  dataSelecionada: {
+    dia: number
+    mes: number
+    semana: string
+    ano: number
+  } | null
 }
 
 export interface HorarioSelecionado {
@@ -24,7 +29,12 @@ export interface HorarioSelecionado {
   recursoId: number
 }
 
-const getBgColor = (disponibilidade: string, isInactive: boolean): string => {
+const getBgColor = (
+  disponibilidade: string,
+  isInactive: boolean,
+  isSelected: boolean,
+): string => {
+  if (isSelected) return 'bg-yellow-500'
   if (isInactive) return 'bg-gray-300'
   return disponibilidade === 'Horário vago' ? 'bg-green-500' : 'bg-red-500'
 }
@@ -35,12 +45,14 @@ export function NewDiaClient({
   idrecurso,
   onHorarioSelecionado,
   selectedHorarios,
+  isActive, // Novo prop para controle de ativação
 }: {
   dataSelecionada: DiaSelecionado['dataSelecionada']
   id: string
   idrecurso: number
   onHorarioSelecionado: (horario: HorarioSelecionado) => void
   selectedHorarios: HorarioSelecionado[]
+  isActive: boolean // Novo prop
 }) {
   const [appointments, setAppointments] = useState<AgendaNew[]>([])
   const [userHorario, setUserHorario] = useState<HorarioFuncionamento[]>([])
@@ -50,6 +62,7 @@ export function NewDiaClient({
     try {
       const data = await BuscarHorario(id)
       await setUserHorario(data)
+      console.log(data)
     } catch (error) {
       console.error('Erro ao carregar dados do usuário:', error)
     }
@@ -82,15 +95,34 @@ export function NewDiaClient({
   }, [])
 
   useEffect(() => {
-    if (userHorario[0] !== undefined) {
+    if (userHorario[0] !== undefined && dataSelecionada?.semana !== 'sábado') {
+      openingTime = userHorario[0].horarioAbertura
+      closingTime = userHorario[0].horarioFechamento
+      lunchStart = userHorario[0].horarioAlmocoInicio
+      lunchEnd = userHorario[0].horarioAlmocoFim
+    } else if (
+      userHorario[0] !== undefined &&
+      dataSelecionada?.semana === 'sábado'
+    ) {
+      openingTime = userHorario[0].horarioAberturasabado
+      closingTime = userHorario[0].horarioFechamentosabado
+    }
+    console.log('foi executadfo')
+  }, [userHorario[0]])
+
+  useEffect(() => {
+    if (userHorario[0] !== undefined && dataSelecionada?.semana === 'sábado') {
+      openingTime = userHorario[0].horarioAberturasabado
+      closingTime = userHorario[0].horarioFechamentosabado
+    } else if (
+      userHorario[0] !== undefined &&
+      dataSelecionada?.semana !== 'sábado'
+    ) {
       openingTime = userHorario[0].horarioAbertura
       closingTime = userHorario[0].horarioFechamento
       lunchStart = userHorario[0].horarioAlmocoInicio
       lunchEnd = userHorario[0].horarioAlmocoFim
     }
-  }, [userHorario[0]])
-
-  useEffect(() => {
     fetchAppointments()
   }, [dataSelecionada?.dia])
 
@@ -269,7 +301,9 @@ export function NewDiaClient({
   }
 
   return (
-    <div className="flex flex-col md:flex-row w-full bg-zinc-100 rounded-md shadow-lg p-1">
+    <div
+      className={`flex flex-col md:flex-row w-full bg-zinc-100 rounded-md shadow-lg p-1 ${isActive ? '' : 'pointer-events-none opacity-50'}`}
+    >
       <div className="relative w-full md:w-52 flex justify-center items-center">
         <div className="absolute w-full h-full">
           <Image
@@ -280,7 +314,9 @@ export function NewDiaClient({
             className="w-full h-full"
           />
         </div>
-        <span className="font-alt text-white z-10">Campo {idrecurso}</span>
+        <span className="font-alt text-white z-10">
+          {idrecurso === 1 ? 'La Bombonera' : 'Arena da Baixada'}
+        </span>
       </div>
 
       {loading ? (
@@ -289,38 +325,55 @@ export function NewDiaClient({
         </div>
       ) : (
         <div className="flex flex-col md:flex-row w-full gap-1 mt-2 md:mt-0 ml-0 md:ml-2 justify-center items-center">
-          {allAppointments.map((appointment) => (
-            <button
-              key={appointment.horario}
-              className={`flex-grow flex w-full md:flex-col gap-1 h-20 justify-center items-center rounded-sm font-bold ${getBgColor(
-                appointment.Cliente.nome,
-                isInactive(appointment),
-              )} ${
-                appointment.Cliente.nome === 'Horário vago' &&
-                !isInactive(appointment)
-                  ? 'hover:cursor-pointer hover:scale-105 transition-transform duration-300'
-                  : 'cursor-not-allowed'
-              }`}
-              onClick={() => {
-                handleSelectHorario(appointment)
-              }}
-              disabled={isInactive(appointment)}
-            >
-              <span>{appointment.horario}</span>
-              <span className="md:hidden">|</span>
-              <span>R${appointment.TipoServico.valorServico},00</span>
-              <span className="md:hidden">|</span>
-              {appointment.Cliente.nome === 'Horário vago' ? (
-                <div>
-                  <span>{appointment.Cliente.nome}</span>
-                </div>
-              ) : (
-                <div>
-                  <span>Horário Reservado</span>
-                </div>
-              )}
-            </button>
-          ))}
+          {allAppointments.map((appointment) => {
+            const isSelected = selectedHorarios.some(
+              (selected) => selected.horario === appointment.horario,
+            )
+            return (
+              <button
+                key={appointment.horario}
+                className={`flex-grow flex w-full md:flex-col gap-1 h-20 justify-center items-center rounded-sm font-bold ${isActive ? '' : 'pointer-events-none opacity-50 bg-zinc-700'} ${getBgColor(
+                  dataSelecionada?.semana === 'domingo'
+                    ? 'Horário reservado'
+                    : appointment.Cliente.nome,
+                  isInactive(appointment),
+                  isSelected,
+                )} ${
+                  appointment.Cliente.nome === 'Horário vago' &&
+                  !isInactive(appointment) &&
+                  !isSelected
+                    ? 'hover:cursor-pointer hover:scale-105 transition-transform duration-300'
+                    : 'cursor-not-allowed'
+                }`}
+                onClick={() => {
+                  handleSelectHorario(appointment)
+                }}
+                disabled={
+                  isInactive(appointment) ||
+                  dataSelecionada?.semana === 'domingo'
+                }
+              >
+                <span>{appointment.horario}</span>
+                <span className="md:hidden">|</span>
+                <span>R${appointment.TipoServico.valorServico},00</span>
+                <span className="md:hidden">|</span>
+                {appointment.Cliente.nome === 'Horário vago' ||
+                dataSelecionada?.semana === 'domingo' ? (
+                  <div>
+                    <span>
+                      {dataSelecionada?.semana === 'domingo'
+                        ? 'Horário Reservado'
+                        : appointment.Cliente.nome}
+                    </span>
+                  </div>
+                ) : (
+                  <div>
+                    <span>Horário Reservado</span>
+                  </div>
+                )}
+              </button>
+            )
+          })}
         </div>
       )}
     </div>

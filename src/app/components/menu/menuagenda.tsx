@@ -44,14 +44,16 @@ export function MenuAgenda() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <Image
-                    className="h-14 w-auto"
-                    src="/COL0001_Mascote_02.png"
-                    alt="Your Company"
-                    width={500}
-                    height={500}
-                    quality={100}
-                  />
+                  <Link href={'/home'}>
+                    <Image
+                      className="h-14 w-auto"
+                      src="/Coliseum Sport Arena_LM12.png"
+                      alt="Your Company"
+                      width={500}
+                      height={500}
+                      quality={100}
+                    />
+                  </Link>
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4 mt-3 font-alt">
@@ -101,26 +103,13 @@ export function MenuAgenda() {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            href="#"
+                            href="/login"
                             className={classNames(
                               active ? 'bg-gray-100' : '',
                               'block px-4 py-2 text-sm text-black',
                             )}
                           >
-                            Seu Perfil
-                          </Link>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <Link
-                            href="#"
-                            className={classNames(
-                              active ? 'bg-gray-100' : '',
-                              'block bg-black px-4 py-2 text-sm text-white',
-                            )}
-                          >
-                            Configurações
+                            Entra
                           </Link>
                         )}
                       </Menu.Item>

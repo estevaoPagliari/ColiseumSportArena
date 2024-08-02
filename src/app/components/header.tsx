@@ -46,7 +46,7 @@ export function Header() {
                 <div className="flex flex-shrink-0 items-center">
                   <Image
                     className="h-14 w-auto"
-                    src="/COL0001_Mascote_02.png"
+                    src="/Coliseum Sport Arena_LM12.png"
                     alt="Your Company"
                     width={500}
                     height={500}

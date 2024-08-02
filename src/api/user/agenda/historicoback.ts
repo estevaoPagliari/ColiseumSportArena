@@ -9,3 +9,15 @@ export async function BuscarHistorico() {
     return false
   }
 }
+
+export async function BuscarHistoricoCliente({ id }: { id: number }) {
+  try {
+    const response = await api.post('/agendaservicopostcliente', {
+      id,
+    })
+    return response.data
+  } catch (error) {
+    console.error('Status do erro:', error)
+    return false
+  }
+}
