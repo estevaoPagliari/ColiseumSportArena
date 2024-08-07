@@ -95,7 +95,6 @@ export function HistoricoComponenteAdmin({ id }: { id: string }) {
           <option value="mes">Mês</option>
           <option value="ano">Ano</option>
           <option value="Cliente.nome">Nome Cliente</option>
-          <option value="Cliente.cpf">CPF</option>
         </select>
         <input
           type="text"

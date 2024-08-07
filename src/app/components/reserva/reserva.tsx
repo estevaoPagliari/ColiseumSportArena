@@ -14,13 +14,15 @@ export function ReservarPage({
 }) {
   const [cadastroSucesso, setCadastroSucesso] = useState(false)
   const [erroCadastro, setErroCadastro] = useState('')
+  const [isAgendando, setIsAgendando] = useState(false)
   const router = useRouter()
 
   async function criarAgendamento() {
+    setIsAgendando(true)
     try {
       const { dia, mes, ano, horario, recursoId } = horarioSelecionado
       const newid = parseInt(idclient)
-
+      console.log(horarioSelecionado, newid)
       const retorno = await CriarAgendamentoNormal(
         dia,
         mes,
@@ -46,6 +48,8 @@ export function ReservarPage({
       setCadastroSucesso(false)
       console.error('Erro ao criar usuário:', error)
       setErroCadastro('Erro ao criar usuário. Por favor, tente novamente.')
+    } finally {
+      setIsAgendando(false)
     }
   }
 
@@ -121,7 +125,7 @@ export function ReservarPage({
               logout()
             }}
           >
-            Confirmar
+            {isAgendando ? 'Agendando...' : 'Confirmar'}
           </button>
         </div>
       ) : (

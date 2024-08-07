@@ -14,7 +14,7 @@ const navigation = [
   { name: 'Início', href: '/cliente', current: true },
   { name: 'Agenda', href: '/agendacliente', current: false },
   { name: 'Histórico', href: '/historicocliente', current: false },
-  { name: 'Configuração', href: '#', current: false },
+  { name: 'Configuração', href: '/configuracaocliente', current: false },
 ]
 
 function classNames(...classes: string[]) {

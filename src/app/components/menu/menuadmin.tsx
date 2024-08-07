@@ -14,6 +14,7 @@ const navigation = [
   { name: 'Home', href: '/admin', current: true },
   { name: 'Historio', href: '/historico', current: false },
   { name: 'Configuração', href: '#', current: false },
+  { name: 'Clientes', href: '/listacliente', current: false },
 ]
 
 function classNames(...classes: string[]) {

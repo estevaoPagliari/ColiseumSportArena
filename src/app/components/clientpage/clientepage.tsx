@@ -8,11 +8,13 @@ import { BarLoader } from 'react-spinners'
 export function ClientPage({ id }: { id: string }) {
   const [agenda, setAgenda] = useState<AgendaNew[]>([])
   const [loading, setLoading] = useState(true)
+  const [isModalVisible, setModalVisible] = useState<Array<boolean>>([])
 
   async function BuscarAgendaCliente() {
     try {
       const response = await buscaragendacliente({ id })
       setAgenda(response)
+      setModalVisible(response.map(() => false)) // Inicializa o estado do modal com base na agenda recebida
     } catch (error) {
       console.error('Erro ao buscar agenda do cliente:', error)
     } finally {
@@ -27,10 +29,6 @@ export function ClientPage({ id }: { id: string }) {
   async function ReloadPage() {
     await BuscarAgendaCliente()
   }
-
-  const [isModalVisible, setModalVisible] = useState<Array<boolean>>(
-    agenda.map(() => false),
-  )
 
   const handleOpenModal = (index: number) => {
     setModalVisible((prev) => {
@@ -56,6 +54,10 @@ export function ClientPage({ id }: { id: string }) {
         {loading ? (
           <div className="flex flex-1 justify-center items-center h-full">
             <BarLoader color="#A1D7E2" loading={true} />
+          </div>
+        ) : agenda.length === 0 ? (
+          <div className="flex flex-1 justify-center items-center h-full">
+            <span>Sem reservas no momento.</span>
           </div>
         ) : (
           agenda.map((agenda, index) => (

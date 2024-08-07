@@ -5,8 +5,9 @@ export interface userCliente {
   nome: string // String
   email: string // String
   senha: string // String
-  cpf: number // Int
+  cpf: string // Int
   telefone: number // Int
+  habilitado: boolean
   createdAt: Date // DateTime
   updatedAt: Date // DateTime
   Endereco: endereco[] // Array de Endereco

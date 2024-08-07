@@ -2,24 +2,20 @@
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { handleOAuthCodeClient } from '@/api/login/login'
+import { RecuperarSenha } from '@/api/login/login'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import Cookies from 'js-cookie'
 
 const schema = yup.object({
   email: yup.string().email('Email Invalido').required('Campo obrigatório'),
-  senha: yup
-    .string()
-    .min(8, 'A senha deve ter no minimo 8 caracteres')
-    .required('Campo obrigatório'),
 })
 
-export default function LoginComponents() {
+export default function RecuperarSenhaComponents() {
   const [isLoading, setIsLoading] = useState(false)
   const [messageerro, setMessageerro] = useState('')
+  const [messageconfirme, setMessageconfirme] = useState('')
 
   const router = useRouter()
   const {
@@ -32,27 +28,24 @@ export default function LoginComponents() {
 
   interface FormData {
     email: string
-    senha: string
   }
-
-  useEffect(() => {
-    const tokenuser = Cookies.get('tokenclient')
-    if (tokenuser) {
-      router.push('/cliente')
-    }
-  }, [router])
 
   async function handleCreateUser(data: FormData): Promise<void> {
     setIsLoading(true)
     setMessageerro('')
-    const { email, senha } = data
-    const response = await handleOAuthCodeClient(email, senha)
+    const { email } = data
+    const response = await RecuperarSenha(email)
 
     if (response.status === 200) {
-      router.push('/cliente')
+      console.log(response?.data)
+      setMessageconfirme(response?.data.message)
+      setTimeout(() => {
+        setIsLoading(false)
+        router.push('/home')
+      }, 3000) // Redirecionar após 2 segundos
     } else {
       setIsLoading(false)
-      setMessageerro(response.message)
+      setMessageerro(response?.message)
     }
   }
   return (
@@ -67,7 +60,7 @@ export default function LoginComponents() {
             quality={100}
             alt="Picture of the author"
           />
-          <div className="text-2xl font-alt ">Login</div>
+          <div className="text-2xl font-alt ">Recuperar Senha</div>
         </div>
 
         <div className="flex flex-col gap-4">
@@ -89,40 +82,16 @@ export default function LoginComponents() {
             <span className="text-red-500">{errors.email?.message}</span>
           )}
 
-          <Controller
-            control={control}
-            name="senha"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <input
-                type="password"
-                placeholder="Senha"
-                className="w-full p-2 font-medium rounded-sm"
-                onChange={onChange}
-                onBlur={onBlur}
-                value={value}
-              />
-            )}
-          />
-          {errors.senha && (
-            <span className="text-red-500">{errors.senha?.message}</span>
-          )}
-
           <button
             className="h-10 font-alt text-white transition bg-black rounded-md hover:bg-slate-600"
             onClick={handleSubmit(handleCreateUser)}
             disabled={isLoading}
           >
-            {isLoading ? 'Carregando...' : 'Entrar Usuario'}
+            {isLoading ? 'Carregando...' : 'Solicitar'}
           </button>
 
           <Link href={'/registrar'} className="mt-4 text-center font-alt">
-            Registra-se
-          </Link>
-          <Link
-            href={'/recuperarsenha'}
-            className="text-center font-alt text-xs"
-          >
-            Recuperar senha
+            Voltar
           </Link>
           {messageerro && (
             <div
@@ -130,6 +99,14 @@ export default function LoginComponents() {
               role="alert"
             >
               <strong className="font-bold">{messageerro}</strong>
+            </div>
+          )}
+          {messageconfirme && (
+            <div
+              className="bg-green-50 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-4"
+              role="alert"
+            >
+              <strong className="font-bold">{messageconfirme}</strong>
             </div>
           )}
         </div>
