@@ -114,7 +114,7 @@ export default function RegistrarFrom() {
 
   // Função para redirecionar para página de login
   function redirectToLogin() {
-    router.push('/login')
+    router.push('/home')
   }
 
   async function handleCEPChange(cepValue: string) {
