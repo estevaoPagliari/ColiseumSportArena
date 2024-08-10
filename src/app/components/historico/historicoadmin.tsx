@@ -2,6 +2,8 @@
 import { BuscarHistorico } from '@/api/user/agenda/historicoback'
 import React, { useEffect, useMemo, useState } from 'react'
 import { AgendaNew } from '@/api/interface/InterAgenda'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 type SortDirection = 'ascending' | 'descending'
 
@@ -10,7 +12,7 @@ function getNestedValue(obj: any, path: string) {
   return path.split('.').reduce((acc, part) => acc && acc[part], obj)
 }
 
-export function HistoricoComponenteAdmin({ id }: { id: string }) {
+export function HistoricoComponenteAdmin() {
   const [data, setData] = useState<AgendaNew[]>([])
   const [originalData, setOriginalData] = useState<AgendaNew[]>([])
   const [sortConfig, setSortConfig] = useState<{
@@ -19,12 +21,13 @@ export function HistoricoComponenteAdmin({ id }: { id: string }) {
   } | null>(null)
   const [selectedOption, setSelectedOption] = useState<string>('horario')
   const [searchTerm, setSearchTerm] = useState<string>('')
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
 
   async function BuscarHistoricoAdmin() {
     try {
       const response = await BuscarHistorico()
       setData(response)
-      console.log(id)
+
       setOriginalData(response)
     } catch (error) {
       console.error('Erro ao buscar histórico:', error)
@@ -63,6 +66,13 @@ export function HistoricoComponenteAdmin({ id }: { id: string }) {
 
   const handleSearch = () => {
     const filteredData = originalData.filter((item) => {
+      if (selectedOption === 'data' && selectedDate) {
+        const formattedDate = `${item.dia}/${item.mes}/${item.ano}`
+        const searchDate = `${selectedDate.getDate()}/${
+          selectedDate.getMonth() + 1
+        }/${selectedDate.getFullYear()}`
+        return formattedDate === searchDate
+      }
       const value = getNestedValue(item, selectedOption)
       if (typeof value === 'string') {
         return value.toLowerCase().includes(searchTerm.toLowerCase())
@@ -75,6 +85,7 @@ export function HistoricoComponenteAdmin({ id }: { id: string }) {
   const handleRestore = () => {
     setData(originalData)
     setSearchTerm('')
+    setSelectedDate(null)
   }
 
   useEffect(() => {
@@ -85,32 +96,42 @@ export function HistoricoComponenteAdmin({ id }: { id: string }) {
     <div className="flex flex-col m-auto p-3 shadow-lg bg-zinc-200">
       <div className="flex flex-col md:flex-row justify-start items-center mb-4 gap-2">
         <select
-          className="flex flex-1 w-full md:w-auto px-2 py-1 mr-2 border border-gray-300 rounded"
+          className="flex flex-1 w-full md:w-auto px-2 py-1 border border-gray-300 rounded"
           value={selectedOption}
           onChange={(e) => setSelectedOption(e.target.value)}
         >
           <option value="horario">Horário</option>
           <option value="Recurso.nome">Recurso</option>
-          <option value="dia">Dia</option>
-          <option value="mes">Mês</option>
-          <option value="ano">Ano</option>
+          <option value="data">Data</option>
           <option value="Cliente.nome">Nome Cliente</option>
         </select>
-        <input
-          type="text"
-          className="px-2 py-1 mr-2 border border-gray-300 rounded w-full"
-          placeholder="Digite sua pesquisa"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+
+        {selectedOption === 'data' ? (
+          <DatePicker
+            selected={selectedDate}
+            onChange={(date) => setSelectedDate(date)}
+            dateFormat="dd/MM/yyyy"
+            className="w-full md:w-96 px-2 py-1 border border-gray-300 rounded"
+            placeholderText="Selecione uma data"
+          />
+        ) : (
+          <input
+            type="text"
+            className="w-full md:w-96 px-2 py-1 border border-gray-300 rounded"
+            placeholder="Digite sua pesquisa"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        )}
+
         <button
-          className="flex flex-1 px-4 py-2 mr-2 w-full text-white bg-blue-500 rounded hover:bg-blue-600"
+          className="w-full md:w-32 px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
           onClick={handleSearch}
         >
           Procurar
         </button>
         <button
-          className="flex flex-1 w-full px-4 py-2 mr-2 text-white bg-gray-500 rounded hover:bg-gray-600"
+          className="w-full md:w-32 px-4 py-2 text-white bg-gray-500 rounded hover:bg-gray-600"
           onClick={handleRestore}
         >
           Restaurar Tabela

@@ -62,7 +62,6 @@ export function NewDiaClient({
     try {
       const data = await BuscarHorario(id)
       await setUserHorario(data)
-      console.log(data)
     } catch (error) {
       console.error('Erro ao carregar dados do usuário:', error)
     }
@@ -107,7 +106,6 @@ export function NewDiaClient({
       openingTime = userHorario[0].horarioAberturasabado
       closingTime = userHorario[0].horarioFechamentosabado
     }
-    console.log('foi executadfo')
   }, [userHorario[0]])
 
   useEffect(() => {

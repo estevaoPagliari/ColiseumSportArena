@@ -38,7 +38,6 @@ export default function Agenda() {
   }
 
   const handleHorarioSelecionado = (horario: HorarioSelecionado) => {
-    console.log(horario.recursoId)
     setHorarioSelecionado(horario)
     setSelectedHorarios([...selectedHorarios, horario]) // Adiciona o horário selecionado à lista
     setActiveResourceId(horario.recursoId) // Ativa o recurso associado
@@ -62,11 +61,9 @@ export default function Agenda() {
   }, [])
 
   useEffect(() => {
+    console.log(horarioSelecionado)
     setActiveResourceId(0) // Garante que nenhum recurso esteja ativo ao montar o componente
   }, [])
-
-  console.log(horarioSelecionado)
-  console.log('teste', activeResourceId)
 
   return (
     <div className="pt-16">

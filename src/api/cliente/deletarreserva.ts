@@ -3,7 +3,6 @@ import { api } from '../api'
 export async function DeletarReserva({ idagenda }: { idagenda: string }) {
   try {
     const response = await api.delete(`/agendaservicoclient/${idagenda}`)
-    console.log('Reserva deletada com sucesso:', response.data)
 
     return {
       status: response.status,

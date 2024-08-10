@@ -112,11 +112,11 @@ export default function LoginComponents() {
             onClick={handleSubmit(handleCreateUser)}
             disabled={isLoading}
           >
-            {isLoading ? 'Carregando...' : 'Entrar Usuario'}
+            {isLoading ? 'Carregando...' : 'Entrar'}
           </button>
 
           <Link href={'/registrar'} className="mt-4 text-center font-alt">
-            Registra-se
+            Registrar-se
           </Link>
           <Link
             href={'/recuperarsenha'}

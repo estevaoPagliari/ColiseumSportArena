@@ -25,7 +25,7 @@ export function CarrinhoDeCompras({
   const router = useRouter()
 
   useEffect(() => {
-    console.log(selectedHorarios)
+    // console.log(selectedHorarios)
     setMounted(true)
     if (selectedHorarios.length > 0) {
       setIsOpen(true)

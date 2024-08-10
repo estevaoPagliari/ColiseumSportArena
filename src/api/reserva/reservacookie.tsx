@@ -9,7 +9,6 @@ export interface HorarioSelecionado {
 }
 
 export function getReserva(): HorarioSelecionado[] {
-  console.log('getReserva iniciada') // Log para indicar que a função foi chamada
   const dados = cookies().get('selectedHorarios')?.value
 
   if (!dados) {

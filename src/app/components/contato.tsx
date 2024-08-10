@@ -9,7 +9,7 @@ const ContactForm: React.FC = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
     // Aqui você pode adicionar lógica para enviar os dados do formulário para o backend
-    console.log('Dados do formulário:', { name, email, message })
+    // console.log('Dados do formulário:', { name, email, message })
   }
 
   return (

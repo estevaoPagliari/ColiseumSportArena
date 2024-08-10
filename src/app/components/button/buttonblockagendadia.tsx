@@ -48,7 +48,7 @@ export default function ButtonBloquearDia({
 
       setIsCancelling(false)
       return data
-      console.log(data)
+      // console.log(data)
     } catch (error) {
       console.error('Erro ao cancelar agendamento:', error)
       setIsCancelling(false)

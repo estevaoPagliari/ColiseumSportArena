@@ -34,9 +34,9 @@ export default function LoginComponentsAdmin() {
 
   async function handleCreateUser(data: FormData): Promise<void> {
     setIsLoading(true)
-    console.log('teste')
+
     const { email, senha } = data
-    console.log(email, senha)
+
     const IsAuthenticated = await handleOAuthCode(email, senha)
     if (IsAuthenticated) {
       router.push('/admin')

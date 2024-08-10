@@ -125,7 +125,7 @@ export default function ConfiguracaoClientFrom({ id }: { id: string }) {
     setMessageerro('')
 
     try {
-      console.log(data)
+      // console.log(data)
       const { senha } = data
       const response = await alterarsenha(id, senha)
 

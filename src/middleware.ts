@@ -7,8 +7,6 @@ export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
   // Log the tokens for debugging
-  console.log('Admin Token:', tokenadmin)
-  console.log('User Token:', tokenuser)
 
   if (pathname.startsWith('/admin')) {
     if (!tokenadmin) {

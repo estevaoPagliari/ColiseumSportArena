@@ -38,7 +38,7 @@ export function ComponeteAgendaClient() {
   }
 
   const handleHorarioSelecionado = (horario: HorarioSelecionado) => {
-    console.log(horario.recursoId)
+    // console.log(horario.recursoId)
     setHorarioSelecionado(horario)
     setSelectedHorarios([...selectedHorarios, horario]) // Adiciona o horário selecionado à lista
     setActiveResourceId(horario.recursoId) // Ativa o recurso associado
@@ -66,7 +66,7 @@ export function ComponeteAgendaClient() {
   }, [])
 
   console.log(horarioSelecionado)
-  console.log('teste', activeResourceId)
+  // console.log('teste', activeResourceId)
 
   return (
     <div className="pt-16">

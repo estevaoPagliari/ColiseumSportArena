@@ -8,8 +8,6 @@ export async function CriarAgendamentoNormal(
   recursoId: number | null,
 ) {
   try {
-    console.log('teste')
-
     const response = await api.post('/agendaservico', {
       dia,
       mes,

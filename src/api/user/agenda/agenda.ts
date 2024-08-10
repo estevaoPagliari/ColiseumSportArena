@@ -13,7 +13,6 @@ export async function buscaragendadia(id: string, dia: string, mes: string) {
 }
 
 export async function CancelarAgendamento(idagenda: string) {
-  console.log(idagenda)
   try {
     const response = api.delete(`/agendaservico/${idagenda}`)
     return (await response).status
@@ -33,7 +32,6 @@ export async function CriarAgendamento(
   recursoId: number | null,
 ) {
   try {
-    console.log('teste')
     const response = await api.post('/agendaservico', {
       dia,
       mes,
@@ -44,7 +42,6 @@ export async function CriarAgendamento(
       clienteId,
       recursoId,
     })
-    console.log(response.data)
 
     return response.data
   } catch (error) {
@@ -64,7 +61,6 @@ export async function BloquearDia(
   recursoId2: number | null,
 ) {
   try {
-    console.log('teste')
     const response = await api.post('/bloqueardia', {
       dia,
       mes,
@@ -75,7 +71,6 @@ export async function BloquearDia(
       recursoId,
       recursoId2,
     })
-    console.log(response.data)
 
     return response.data
   } catch (error) {

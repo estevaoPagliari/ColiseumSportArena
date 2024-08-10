@@ -66,7 +66,6 @@ export default function AgendaClient() {
   }, [])
 
   console.log(horarioSelecionado)
-  console.log('teste', activeResourceId)
 
   return (
     <div className="pt-16">
