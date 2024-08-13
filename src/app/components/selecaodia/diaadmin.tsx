@@ -286,6 +286,7 @@ export function DiaAdmin({
             recursoId2={2}
             recursoId1={1}
             clienteid={2}
+            DiaSemana={dataSelecionada?.semana ?? null}
             onAppointmentCancelled={() => onAppointmentCancelled()}
           />
         </div>

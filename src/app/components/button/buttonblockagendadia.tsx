@@ -12,6 +12,7 @@ export default function ButtonBloquearDia({
   clienteId,
   recursoId,
   recursoId2,
+  DiaSemana,
   onAppointmentCancelled,
 }: {
   dia: number | null
@@ -22,6 +23,7 @@ export default function ButtonBloquearDia({
   clienteId: number | null
   recursoId: number | null
   recursoId2: number | null
+  DiaSemana: string | null
   onCancel: () => void
   onAppointmentCancelled: () => void
 }) {
@@ -41,6 +43,7 @@ export default function ButtonBloquearDia({
         clienteId,
         recursoId,
         recursoId2,
+        DiaSemana,
       )
       setCancelSuccess(true)
       onAppointmentCancelled() // Chamando a função para atualizar a lista de agendamentos
@@ -60,7 +63,7 @@ export default function ButtonBloquearDia({
       {showConfirmation ? (
         <div className=" flex-row">
           <div>
-            <span>Deseja inativar dia?</span>
+            <span>Deseja bloquear o dia?</span>
           </div>
           <div className="flex  items-center justify-between">
             <button
@@ -83,7 +86,7 @@ export default function ButtonBloquearDia({
           className="flex flex-col text-center justify-center items-center sm:text-left bg-red-600 rounded-md"
           onClick={() => setShowConfirmation(true)}
         >
-          <span className="p-2 font-sans text-xl">Inativar Dia</span>
+          <span className="p-2 font-sans text-xl">Bloquear Dia</span>
         </button>
       )}
       {isCancelling && (

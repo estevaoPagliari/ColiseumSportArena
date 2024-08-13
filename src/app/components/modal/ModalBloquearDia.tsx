@@ -10,7 +10,7 @@ interface ModalInter {
   recursoId1: number
   recursoId2: number
   clienteid: number
-
+  DiaSemana: string | null
   onClose: () => void
   onAppointmentCancelled: () => void
 }
@@ -26,6 +26,7 @@ export function ModalBloquearDia({
   recursoId2,
   recursoId1,
   clienteid,
+  DiaSemana,
   onAppointmentCancelled,
 }: ModalInter) {
   if (!isVisible) {
@@ -62,6 +63,7 @@ export function ModalBloquearDia({
               recursoId2={recursoId2}
               onCancel={onClose}
               onAppointmentCancelled={onAppointmentCancelled}
+              DiaSemana={DiaSemana}
             />
           </div>
         </div>

@@ -59,6 +59,7 @@ export async function BloquearDia(
   clienteId: number | null,
   recursoId: number | null,
   recursoId2: number | null,
+  DiaSemana: string | null,
 ) {
   try {
     const response = await api.post('/bloqueardia', {
@@ -70,6 +71,7 @@ export async function BloquearDia(
       clienteId,
       recursoId,
       recursoId2,
+      DiaSemana,
     })
 
     return response.data
