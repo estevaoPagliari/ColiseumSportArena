@@ -71,7 +71,6 @@ export function ReservarPage({
           </span>
           <span>Horário: {horarioSelecionado.horario}</span>
           <span className="flex flex-row">
-            {' '}
             Campo:
             {horarioSelecionado.recursoId === 1 ? (
               <div>
@@ -93,9 +92,7 @@ export function ReservarPage({
                 Cadastro realizado com sucesso!
                 <button
                   className="flex flex-1 bg-green-700 justify-center items-center font-alt rounded-md mt-2 text-black px-2"
-                  onClick={() => {
-                    voltarPage()
-                  }}
+                  onClick={voltarPage}
                 >
                   Aperte aqui para voltar
                 </button>
@@ -110,23 +107,24 @@ export function ReservarPage({
               <strong className="font-bold">{erroCadastro}</strong>
               <button
                 className="flex flex-1 bg-red-700 justify-center items-center font-alt rounded-md mt-2 text-black px-2"
-                onClick={() => {
-                  voltarPage()
-                }}
+                onClick={voltarPage}
               >
                 Aperte aqui para voltar
               </button>
             </div>
           )}
-          <button
-            className="flex flex-1 bg-blue-500 justify-center items-center font-alt rounded-xl mt-2"
-            onClick={() => {
-              criarAgendamento()
-              logout()
-            }}
-          >
-            {isAgendando ? 'Agendando...' : 'Confirmar'}
-          </button>
+
+          {!cadastroSucesso && (
+            <button
+              className="flex flex-1 bg-blue-500 justify-center items-center font-alt rounded-xl mt-2"
+              onClick={async () => {
+                await criarAgendamento()
+                logout()
+              }}
+            >
+              {isAgendando ? 'Agendando...' : 'Confirmar'}
+            </button>
+          )}
         </div>
       ) : (
         <div className="flex bg-blue-500 w-80 h-80 text-center pt-16">

@@ -33,7 +33,7 @@ export default function ButtonBloquearData({
         horario,
         1,
         1,
-        1,
+        2,
         idrecurso,
       )
 

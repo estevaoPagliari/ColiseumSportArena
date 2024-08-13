@@ -123,6 +123,7 @@ export default function ConfiguracaoClientFrom({ id }: { id: string }) {
   async function handleCreateUser(data: FormData): Promise<void> {
     setIsLoading(true)
     setMessageerro('')
+    console.log('oi')
 
     try {
       // console.log(data)
