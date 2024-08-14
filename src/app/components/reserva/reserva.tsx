@@ -131,6 +131,16 @@ export function ReservarPage({
           <p>Você não tem nenhum agendamento para confirmar.</p>
         </div>
       )}
+      <div
+        className="bg-red-100 border w-96 border-red-400 text-red-700 px-4 py-3 rounded relative mt-4"
+        role="alert"
+      >
+        <span>
+          Atenção: A reserva só pode ser cancelada até dois dias antes da data
+          agendada. Após esse prazo, o cancelamento só poderá ser feito por
+          telefone.
+        </span>
+      </div>
     </div>
   )
 }
