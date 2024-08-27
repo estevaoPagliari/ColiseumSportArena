@@ -2,8 +2,9 @@ import { api } from '../api'
 
 interface FormData {
   email: string
-  nome: string
+  nome01: string
   senha: string
+  sobrenome: string
   confirmacaoSenha: string
   cpf: string
   telefone: string
@@ -19,8 +20,11 @@ interface FormData {
 
 export async function criarcontacliente(data: FormData) {
   try {
-    const { email, nome, senha, cpf, telefone, endereco } = data
+    const { email, nome01, sobrenome, senha, cpf, telefone, endereco } = data
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const nome = nome01 + ' ' + sobrenome
+    console.log(nome)
     const response = await api.post('/usercliente', {
       email,
       nome,

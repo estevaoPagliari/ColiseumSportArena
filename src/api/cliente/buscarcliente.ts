@@ -10,6 +10,16 @@ export async function buscarcliente(id: string) {
   }
 }
 
+export async function buscarclientegeral() {
+  try {
+    const response = await api.get('/usercliente')
+    return response.data
+  } catch (error) {
+    console.error('Status do erro:', error)
+    return false
+  }
+}
+
 export async function alterarsenha(id: string, senha: string) {
   try {
     const response = await api.patch(`/usercliente/${id}`, { senha })

@@ -65,12 +65,7 @@ interface FormData {
 }
 
 export default function ConfiguracaoClientFrom({ id }: { id: string }) {
-  const {
-    control,
-    setValue,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>({
+  const { control, setValue, handleSubmit } = useForm<FormData>({
     resolver: yupResolver(schema),
   })
   const router = useRouter()
@@ -81,22 +76,29 @@ export default function ConfiguracaoClientFrom({ id }: { id: string }) {
   // Função para buscar cliente e preencher o formulário
   useEffect(() => {
     async function BuscarCliente() {
-      const response = await buscarcliente(id)
-      if (response) {
-        setValue('email', response.email)
-        setValue('nome', response.nome)
-        setValue('cpf', response.cpf.toString())
-        setValue('telefone', response.telefone.toString())
-        setValue('habilitado', response.telefone)
-        setValue('endereco.estado', response.Endereco[0]?.estado || '')
-        setValue('endereco.cidade', response.Endereco[0]?.cidade || '')
-        setValue('endereco.rua', response.Endereco[0]?.rua || '')
-        setValue('endereco.numero', response.Endereco[0]?.numero || '')
-        setValue(
-          'endereco.complemento',
-          response.Endereco[0]?.complemento || '',
-        )
-        setValue('endereco.cep', response.Endereco[0]?.cep.toString() || '')
+      try {
+        const response = await buscarcliente(id)
+        if (response) {
+          setValue('email', response.email)
+          setValue('nome', response.nome)
+          setValue('cpf', response.cpf.toString())
+          setValue('telefone', response.telefone.toString())
+          setValue('habilitado', response.habilitado) // Corrigido aqui
+          if (response.Endereco && response.Endereco.length > 0) {
+            setValue('endereco.estado', response.Endereco[0]?.estado || '')
+            setValue('endereco.cidade', response.Endereco[0]?.cidade || '')
+            setValue('endereco.rua', response.Endereco[0]?.rua || '')
+            setValue('endereco.numero', response.Endereco[0]?.numero || '')
+            setValue(
+              'endereco.complemento',
+              response.Endereco[0]?.complemento || '',
+            )
+            setValue('endereco.cep', response.Endereco[0]?.cep.toString() || '')
+          }
+        }
+      } catch (error) {
+        console.error('Erro ao buscar cliente:', error)
+        // Lidar com o erro de busca do cliente aqui
       }
     }
     BuscarCliente()
@@ -108,25 +110,29 @@ export default function ConfiguracaoClientFrom({ id }: { id: string }) {
         `https://viacep.com.br/ws/${cepValue}/json/`,
       )
       const address = response.data
-      // Atualiza os valores dos campos de endereço com os dados retornados
-      setValue('endereco.estado', address.uf)
-      setValue('endereco.cidade', address.localidade)
-      setValue('endereco.rua', address.logradouro)
-      setValue('endereco.numero', '') // Limpa o número, se necessário
-      setValue('endereco.complemento', address.complemento || '') // Preenche o complemento, se disponível
+      if (address) {
+        // Atualiza os valores dos campos de endereço com os dados retornados
+        setValue('endereco.estado', address.uf)
+        setValue('endereco.cidade', address.localidade)
+        setValue('endereco.rua', address.logradouro)
+        setValue('endereco.numero', '') // Limpa o número, se necessário
+        setValue('endereco.complemento', address.complemento || '') // Preenche o complemento, se disponível
+      }
     } catch (error) {
       console.error('Erro ao buscar CEP:', error)
-      // Lida com o erro de busca do CEP aqui
+      // Lidar com o erro de busca do CEP aqui
+      setMessageerro('Erro ao buscar endereço pelo CEP.')
     }
   }
 
   async function handleCreateUser(data: FormData): Promise<void> {
     setIsLoading(true)
     setMessageerro('')
-    console.log('oi')
-
     try {
-      // console.log(data)
+      // Lógica para criar ou atualizar o usuário usando os dados do formulário
+      console.log(data)
+
+      // Se necessário, você pode adicionar aqui uma requisição para uma API ou outras operações assíncronas
       const { senha } = data
       const response = await alterarsenha(id, senha)
 
@@ -146,7 +152,7 @@ export default function ConfiguracaoClientFrom({ id }: { id: string }) {
       console.error('Erro ao atualizar usuário:', error)
       setMessageerro('Ocorreu um erro ao atualizar a senha.')
     } finally {
-      setIsLoading(false)
+      setIsLoading(false) // Independente do sucesso ou falha, o carregamento será encerrado
     }
   }
 
@@ -211,59 +217,11 @@ export default function ConfiguracaoClientFrom({ id }: { id: string }) {
               />
             )}
           />
-
-          <div className="flex flex-row gap-2 items-center shadow-md">
-            <span className="text-xl text-zinc-500 font-alt ml-2">
-              Nova senha
-            </span>
-          </div>
-          <Controller
-            control={control}
-            name="senha"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <input
-                type={'password'}
-                placeholder="Digite a nova senha"
-                className="w-full p-2 font-medium rounded-sm"
-                onChange={onChange}
-                onBlur={onBlur}
-                value={value}
-              />
-            )}
-          />
-          {errors.senha && (
-            <span className="text-red-500">{errors.senha?.message}</span>
-          )}
-
-          <div className="flex flex-row gap-2 items-center shadow-md">
-            <span className="text-xl text-zinc-500 font-alt ml-2">
-              Confirmar senha
-            </span>
-          </div>
-          <Controller
-            control={control}
-            name="confirmacaoSenha"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <input
-                type={'password'}
-                placeholder="Confirme a nova senha"
-                className="w-full p-2 font-medium rounded-sm"
-                onChange={onChange}
-                onBlur={onBlur}
-                value={value}
-              />
-            )}
-          />
-          {errors.confirmacaoSenha && (
-            <span className="text-red-500">
-              {errors.confirmacaoSenha?.message}
-            </span>
-          )}
-
           <div className="flex flex-row gap-2 items-center shadow-md">
             <span className="text-xl text-zinc-500 font-alt ml-2">CPF</span>
             <span className="text-xs text-zinc-300 font-sans">*</span>
           </div>
+
           <Controller
             control={control}
             name="cpf"
@@ -286,6 +244,7 @@ export default function ConfiguracaoClientFrom({ id }: { id: string }) {
             </span>
             <span className="text-xs text-zinc-300 font-sans">*</span>
           </div>
+
           <Controller
             control={control}
             name="telefone"
@@ -303,121 +262,210 @@ export default function ConfiguracaoClientFrom({ id }: { id: string }) {
           />
 
           <div className="flex flex-row gap-2 items-center shadow-md">
+            <span className="text-xl text-zinc-500 font-alt ml-2">Estado</span>
+            <span className="text-xs text-zinc-300 font-sans">*</span>
+          </div>
+
+          <Controller
+            control={control}
+            name="endereco.estado"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <input
+                type="text"
+                placeholder="Digite o estado"
+                className="w-full p-2 font-medium rounded-sm"
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                readOnly
+              />
+            )}
+          />
+
+          <div className="flex flex-row gap-2 items-center shadow-md">
+            <span className="text-xl text-zinc-500 font-alt ml-2">Cidade</span>
+            <span className="text-xs text-zinc-300 font-sans">*</span>
+          </div>
+
+          <Controller
+            control={control}
+            name="endereco.cidade"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <input
+                type="text"
+                placeholder="Digite a cidade"
+                className="w-full p-2 font-medium rounded-sm"
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                readOnly
+              />
+            )}
+          />
+
+          <div className="flex flex-row gap-2 items-center shadow-md">
+            <span className="text-xl text-zinc-500 font-alt ml-2">Rua</span>
+            <span className="text-xs text-zinc-300 font-sans">*</span>
+          </div>
+
+          <Controller
+            control={control}
+            name="endereco.rua"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <input
+                type="text"
+                placeholder="Digite a rua"
+                className="w-full p-2 font-medium rounded-sm"
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                readOnly
+              />
+            )}
+          />
+
+          <div className="flex flex-row gap-2 items-center shadow-md">
+            <span className="text-xl text-zinc-500 font-alt ml-2">Número</span>
+            <span className="text-xs text-zinc-300 font-sans">*</span>
+          </div>
+
+          <Controller
+            control={control}
+            name="endereco.numero"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <input
+                type="text"
+                placeholder="Digite o número"
+                className="w-full p-2 font-medium rounded-sm"
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                readOnly
+              />
+            )}
+          />
+
+          <div className="flex flex-row gap-2 items-center shadow-md">
             <span className="text-xl text-zinc-500 font-alt ml-2">
-              Endereço
+              Complemento
+            </span>
+          </div>
+
+          <Controller
+            control={control}
+            name="endereco.complemento"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <input
+                type="text"
+                placeholder="Digite o complemento (opcional)"
+                className="w-full p-2 font-medium rounded-sm"
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                readOnly
+              />
+            )}
+          />
+
+          <div className="flex flex-row gap-2 items-center shadow-md">
+            <span className="text-xl text-zinc-500 font-alt ml-2">CEP</span>
+            <span className="text-xs text-zinc-300 font-sans">*</span>
+          </div>
+
+          <Controller
+            control={control}
+            name="endereco.cep"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <input
+                type="text"
+                placeholder="Digite o CEP"
+                className="w-full p-2 font-medium rounded-sm"
+                onChange={(e) => {
+                  onChange(e)
+                  handleCEPChange(e.target.value) // Adicionando chamada para busca do CEP
+                }}
+                onBlur={onBlur}
+                value={value}
+                readOnly
+              />
+            )}
+          />
+
+          <div className="flex flex-row gap-2 items-center shadow-md">
+            <span className="text-xl text-zinc-500 font-alt ml-2">Senha</span>
+            <span className="text-xs text-zinc-300 font-sans">*</span>
+          </div>
+
+          <Controller
+            control={control}
+            name="senha"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <input
+                type="password"
+                placeholder="Digite sua senha"
+                className="w-full p-2 font-medium rounded-sm"
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+              />
+            )}
+          />
+
+          <div className="flex flex-row gap-2 items-center shadow-md">
+            <span className="text-xl text-zinc-500 font-alt ml-2">
+              Confirmar Senha
             </span>
             <span className="text-xs text-zinc-300 font-sans">*</span>
           </div>
 
-          <div className="flex flex-col gap-2">
-            <Controller
-              control={control}
-              name="endereco.estado"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <input
-                  type="text"
-                  placeholder="Estado"
-                  className="w-full p-2 font-medium rounded-sm"
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  readOnly
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="endereco.cidade"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <input
-                  type="text"
-                  placeholder="Cidade"
-                  className="w-full p-2 font-medium rounded-sm"
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  readOnly
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="endereco.rua"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <input
-                  type="text"
-                  placeholder="Rua"
-                  className="w-full p-2 font-medium rounded-sm"
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  readOnly
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="endereco.numero"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <input
-                  type="text"
-                  placeholder="Número"
-                  className="w-full p-2 font-medium rounded-sm"
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  readOnly
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="endereco.complemento"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <input
-                  type="text"
-                  placeholder="Complemento"
-                  className="w-full p-2 font-medium rounded-sm"
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  readOnly
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="endereco.cep"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <input
-                  type="text"
-                  placeholder="CEP"
-                  className="w-full p-2 font-medium rounded-sm"
-                  onChange={(e) => {
-                    onChange(e)
-                    handleCEPChange(e.target.value)
-                  }}
-                  onBlur={onBlur}
-                  value={value}
-                  readOnly
-                />
-              )}
-            />
+          <Controller
+            control={control}
+            name="confirmacaoSenha"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <input
+                type="password"
+                placeholder="Confirme sua senha"
+                className="w-full p-2 font-medium rounded-sm"
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+              />
+            )}
+          />
+
+          <div className="flex flex-row gap-2 items-center shadow-md">
+            <span className="text-xl text-zinc-500 font-alt ml-2">
+              Habilitado
+            </span>
           </div>
+
+          <Controller
+            control={control}
+            name="habilitado"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <input
+                type="checkbox"
+                className="w-full p-2"
+                onChange={onChange}
+                onBlur={onBlur}
+                checked={value}
+                readOnly
+              />
+            )}
+          />
+
+          {messageerro && (
+            <div className="text-red-500 font-sans">{messageerro}</div>
+          )}
 
           <button
             type="button"
+            className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
             onClick={handleSubmit(handleCreateUser)}
-            className="bg-blue-500 text-white p-2 rounded-md"
             disabled={isLoading}
           >
-            {isLoading ? 'Atualizando...' : 'Alterar'}
+            {isLoading ? 'Loading...' : 'Salvar'}
           </button>
-          {messageerro && (
-            <div className="text-green-500 bg-green-100 font-medium mt-2">
-              {messageerro}
-            </div>
-          )}
         </div>
       </div>
     </div>

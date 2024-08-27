@@ -6,17 +6,15 @@ import Link from 'next/link'
 import { FooterComponents } from '@/app/components/footer/footer'
 
 export default function HomePage() {
-  const slides = [
-    '/COL0001_Mascote_02.png',
-    '/COL0001_Mascote_CMYK_01 OUTRA.jpg',
-    '/Coliseum Sport Arena_LM12.png',
-    '/9000164-bandeira-de-bola-com-campo-de-futebol-verde-vetor.jpg',
-  ]
+  const slides = ['/COL0001_Mascote_02.png', '/Coliseum Sport Arena_LM12.png']
 
   const slide2 = [
     '/fotos/aee0624d-db05-4ba0-9360-06ffd3f4f970.jpg',
     '/fotos/e2f38e57-13f1-4c81-a127-b540020a55fd.jpg',
     '/fotos/IMG_8199.jpg',
+    '/fotos/barfrente.jpg',
+    '/fotos/parque.jpg',
+    '/fotos/campo.jpg',
   ]
   return (
     <div>

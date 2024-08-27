@@ -13,7 +13,9 @@ import axios from 'axios' // Importe o Axios
 const schema = yup.object({
   email: yup.string().email('Email Inválido').required('Campo obrigatório'),
 
-  nome: yup.string().required('Campo obrigatório'),
+  nome01: yup.string().required('Campo obrigatório'),
+
+  sobrenome: yup.string().required('Campo obrigatório'),
 
   senha: yup
     .string()
@@ -59,7 +61,8 @@ const schema = yup.object({
 // Definindo a interface para os dados do formulário
 interface FormData {
   email: string
-  nome: string
+  nome01: string
+  sobrenome: string
   senha: string
   confirmacaoSenha: string
   cpf: string
@@ -150,7 +153,8 @@ export default function RegistrarFrom() {
           <div className="text-xl font-alt">Crie sua conta</div>
         </div>
 
-        <div className="flex flex-col gap-2 font-sans">
+        <div className="flex flex-col gap-1 font-sans">
+          <span className="font-alt text-sm">Email</span>
           <Controller
             control={control}
             name="email"
@@ -170,9 +174,10 @@ export default function RegistrarFrom() {
             <span className="text-red-500">{errors.email?.message}</span>
           )}
 
+          <span className="font-alt text-sm">Nome</span>
           <Controller
             control={control}
-            name="nome"
+            name="nome01"
             render={({ field: { onChange, onBlur, value } }) => (
               <input
                 type="text"
@@ -184,10 +189,30 @@ export default function RegistrarFrom() {
               />
             )}
           />
-          {errors.nome && (
-            <span className="text-red-500">{errors.nome?.message}</span>
+          {errors.nome01 && (
+            <span className="text-red-500">{errors.nome01?.message}</span>
           )}
 
+          <span className="font-alt text-sm">Sobrenome</span>
+          <Controller
+            control={control}
+            name="sobrenome"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <input
+                type="text"
+                placeholder="Digite seu sobrenome"
+                className="w-full p-2 font-medium rounded-sm"
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+              />
+            )}
+          />
+          {errors.sobrenome && (
+            <span className="text-red-500">{errors.sobrenome?.message}</span>
+          )}
+
+          <span className="font-alt text-sm">Senha</span>
           <div className="relative">
             <Controller
               control={control}
@@ -216,6 +241,7 @@ export default function RegistrarFrom() {
           )}
 
           <div className="relative">
+            <span className="font-alt text-sm">Confirmar Senha</span>
             <Controller
               control={control}
               name="confirmacaoSenha"
@@ -244,6 +270,7 @@ export default function RegistrarFrom() {
             </span>
           )}
 
+          <span className="font-alt text-sm">Cpf</span>
           <Controller
             control={control}
             name="cpf"
@@ -265,6 +292,7 @@ export default function RegistrarFrom() {
             <span className="text-red-500">{errors.cpf?.message}</span>
           )}
 
+          <span className="font-alt text-sm">Telefone</span>
           <Controller
             control={control}
             name="telefone"
@@ -286,6 +314,7 @@ export default function RegistrarFrom() {
             <span className="text-red-500">{errors.telefone?.message}</span>
           )}
 
+          <span className="font-alt text-sm">CEP</span>
           <Controller
             control={control}
             name="endereco.cep"
@@ -309,7 +338,7 @@ export default function RegistrarFrom() {
           {errors.endereco?.cep && (
             <span className="text-red-500">{errors.endereco.cep?.message}</span>
           )}
-
+          <span className="font-alt text-sm">Estado</span>
           <Controller
             control={control}
             name="endereco.estado"
@@ -330,6 +359,7 @@ export default function RegistrarFrom() {
             </span>
           )}
 
+          <span className="font-alt text-sm">Cidade</span>
           <Controller
             control={control}
             name="endereco.cidade"
@@ -350,6 +380,7 @@ export default function RegistrarFrom() {
             </span>
           )}
 
+          <span className="font-alt text-sm">Rua</span>
           <Controller
             control={control}
             name="endereco.rua"
@@ -367,7 +398,7 @@ export default function RegistrarFrom() {
           {errors.endereco?.rua && (
             <span className="text-red-500">{errors.endereco.rua?.message}</span>
           )}
-
+          <span className="font-alt text-sm">Número</span>
           <Controller
             control={control}
             name="endereco.numero"
@@ -387,7 +418,7 @@ export default function RegistrarFrom() {
               {errors.endereco.numero?.message}
             </span>
           )}
-
+          <span className="font-alt text-sm">Complemento</span>
           <Controller
             control={control}
             name="endereco.complemento"

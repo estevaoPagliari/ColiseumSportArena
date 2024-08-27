@@ -1,6 +1,8 @@
-import Link from 'next/link'
+'use client'
 import ButtonCancelarAgendamento from '../button/buttoncancelagendaadmin'
 import ButtonBloquearData from '../button/buttonblockagenda'
+import { ModalAgendar } from './ModalAgendar'
+import { useState } from 'react'
 
 interface ModalInter {
   isVisible: boolean
@@ -41,6 +43,16 @@ export function Modal({
     return null
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [isModalVisibleBlock, setModalVisibleBlock] = useState<boolean>(false)
+
+  const handleOpenModalBlock = () => {
+    setModalVisibleBlock(true)
+  }
+  const handleCloseModalBlock = () => {
+    setModalVisibleBlock(false)
+  }
+
   return (
     <div
       className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
@@ -66,9 +78,29 @@ export function Modal({
                 </div>
               </div>
               <div className="flex flex-row text-center sm:text-left bg-blue-600 rounded-md">
-                <div className="p-2 font-sans text-2xl ">
-                  <Link href="/">Agendar</Link>
-                </div>
+                <button
+                  className="p-2 font-sans text-2xl "
+                  onClick={() => handleOpenModalBlock()}
+                >
+                  <span>Agendar</span>
+                </button>
+                <ModalAgendar
+                  isVisible={isModalVisibleBlock}
+                  onClose={() => handleCloseModalBlock()}
+                  nome={nome}
+                  servico={servico}
+                  dia={dia ?? null}
+                  mes={mes ?? null}
+                  ano={ano ?? null}
+                  horario={horario}
+                  tempoServico={tempoServico}
+                  telefone={telefone}
+                  email={email}
+                  idagenda={idagenda}
+                  idrecurso={idrecurso}
+                  onAppointmentCancelled={() => onAppointmentCancelled()}
+                  nomeRecurso={nomeRecurso}
+                />
               </div>
               <ButtonBloquearData
                 dia={dia}
