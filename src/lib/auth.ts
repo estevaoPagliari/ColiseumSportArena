@@ -5,8 +5,8 @@ interface User {
   name: string
 }
 
-export function getUser(): User {
-  const token = cookies().get('tokenclient')?.value
+export async function getUser(): Promise<User> {
+  const token = (await cookies()).get('tokenclient')?.value
 
   if (!token) {
     throw new Error('Erro Token')
@@ -17,8 +17,8 @@ export function getUser(): User {
   return user
 }
 
-export function getAdmin(): User {
-  const tokenadmin = cookies().get('tokenadmin')?.value
+export async function getAdmin(): Promise<User> {
+  const tokenadmin = (await cookies()).get('tokenadmin')?.value
 
   if (!tokenadmin) {
     throw new Error('Erro Token')
