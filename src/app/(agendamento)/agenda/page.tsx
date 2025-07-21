@@ -72,7 +72,7 @@ export default function Agenda() {
       </div>
       <div className="px-6 pt-4 flex md:flex-row gap-2 font-sans text-xs">
         <span>Horários</span>
-        <span> | Semana: 17:00 às 22:00</span>
+        <span> | Semana: 08:00 às 22:00</span>
         <span> | Sábado: 08:00 às 12:00 </span>
       </div>
       <div className="grid grid-rows-2 p-6 gap-5">

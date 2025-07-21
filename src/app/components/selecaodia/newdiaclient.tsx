@@ -330,7 +330,7 @@ export function NewDiaClient({
             return (
               <button
                 key={appointment.horario}
-                className={`flex-grow flex w-full md:flex-col gap-1 h-20 justify-center items-center rounded-sm font-bold ${isActive ? '' : 'pointer-events-none opacity-50 bg-zinc-700'} ${getBgColor(
+                className={`flex-grow flex w-full md:flex-col gap-1 h-20 justify-center items-center rounded-sm font-bold text-sm ${isActive ? '' : 'pointer-events-none opacity-50 bg-zinc-700'} ${getBgColor(
                   dataSelecionada?.semana === 'domingo'
                     ? 'Horário reservado'
                     : appointment.Cliente.nome,

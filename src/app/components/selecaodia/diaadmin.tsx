@@ -54,11 +54,12 @@ export function DiaAdmin({
       if (dataSelecionada) {
         setLoading(true) // Inicia o carregamento
         const idrecurso = selected
-        const { dia, mes } = dataSelecionada
+        const { dia, mes, ano } = dataSelecionada
         const response = await api.post('/buscaragendarecurso', {
           id,
           dia,
           mes,
+          ano,
           idrecurso,
         })
 

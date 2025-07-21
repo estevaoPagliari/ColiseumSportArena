@@ -65,7 +65,7 @@ export default function HomePage() {
           <div className="flex flex-col h-screen  md:h-screen items-center focus:cursor-pointer">
             <div className="">
               <h1 className="text-4xl font-alt text-center">Agendamento</h1>
-              <p className="mt-4 text-justify px-4 font-sans ">
+              <p className="mt-4 text-justify px-4 font-alt ">
                 Agende Online no Coliseum Sport Arena: Rápido, Fácil e Prático!
                 Quer garantir o seu espaço no melhor centro esportivo da região?
                 No Coliseum Sport Arena agora, você pode reservar nossos campos

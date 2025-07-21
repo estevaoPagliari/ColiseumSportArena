@@ -15,7 +15,8 @@ interface WeekProps {
 
 export default function Week({ onDateSelected }: WeekProps) {
   const today: Date = new Date()
-  const nextSixDays: Date[] = Array.from({ length: 8 }, (_, i) =>
+
+  const nextSixDays: Date[] = Array.from({ length: 21 }, (_, i) =>
     addDays(today, i),
   )
   const [selectedDay, setSelectedDay] = useState<Date>(today)
@@ -47,7 +48,7 @@ export default function Week({ onDateSelected }: WeekProps) {
     <div className="flex flex-col items-center">
       <h1 className="hidden text-xl md:text-4xl font-alt">Agendamento</h1>
       <div className="grid grid-row-1">
-        <div className="hidden md:flex w-screen gap-4 justify-center p-2">
+        <div className="hidden md:flex w-screen h-auto gap-4 justify-center p-2 flex-wrap">
           {nextSixDays.map((day, index) => (
             <button
               className={`w-52 p-4 border rounded-lg shadow-lg text-center hover:cursor-pointer hover:scale-105 transition-transform duration-300 ${
