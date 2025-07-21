@@ -16,12 +16,12 @@ const baiJamjuree = BaiJamjuree({
   variable: '--font-Bai-Jamjuree',
 })
 
-export default function AgendamentoLayout({
+export default async function AgendamentoLayout({
   children,
 }: {
   children: ReactNode
 }) {
-  const { sub, name } = getUser()
+  const { sub, name } = await getUser()
   console.log('getUser executado', { sub, name }) // Log para verificar a execução de getUser
   return (
     <div

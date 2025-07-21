@@ -4,11 +4,11 @@ import { ReservarPage } from '@/app/components/reserva/reserva'
 import { getReserva } from '@/api/reserva/reservacookie'
 
 export default async function Reserva() {
-  const { sub, name } = getUser()
-  console.log('getUser executado', { sub, name }) // Log para verificar a execução de getUser
+  const { sub, name } = await getUser() // <--- correção aqui
+  console.log('getUser executado', { sub, name })
 
-  const reservas = getReserva()
-  console.log('getReserva executado', reservas) // Log para verificar a execução de getReserva
+  const reservas = await getReserva() // <--- aguarde também aqui
+  console.log('getReserva executado', reservas)
 
   return (
     <div>
@@ -16,7 +16,7 @@ export default async function Reserva() {
         <MenuCliente nameuser={name} />
       </div>
       <div className="pt-16">
-        {(await reservas).map((reserva, index) => (
+        {reservas.map((reserva, index) => (
           <ReservarPage
             key={index}
             horarioSelecionado={reserva}

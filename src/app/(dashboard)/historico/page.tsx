@@ -2,8 +2,8 @@ import { HistoricoComponenteAdmin } from '@/app/components/historico/historicoad
 import { MenuAdmin } from '@/app/components/menu/menuadmin'
 import { getAdmin } from '@/lib/auth'
 
-export default function Historico() {
-  const { name } = getAdmin()
+export default async function Historico() {
+  const { name } = await getAdmin()
   return (
     <div>
       <MenuAdmin nameuser={name} />

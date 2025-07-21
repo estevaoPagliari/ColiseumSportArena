@@ -2,8 +2,8 @@ import ConfiguracaoClientFrom from '@/app/components/login/configuracaoclient'
 import { MenuCliente } from '@/app/components/menu/menucliente'
 import { getUser } from '@/lib/auth'
 
-export default function ClientConfig() {
-  const { sub, name } = getUser()
+export default async function ClientConfig() {
+  const { sub, name } = await getUser()
   return (
     <div className="">
       <MenuCliente nameuser={name} />

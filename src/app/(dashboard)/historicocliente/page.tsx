@@ -2,8 +2,8 @@ import { HistoricoComponenteCliente } from '@/app/components/historico/historico
 import { MenuCliente } from '@/app/components/menu/menucliente'
 import { getUser } from '@/lib/auth'
 
-export default function HistoricoCliente() {
-  const { sub, name } = getUser()
+export default async function HistoricoCliente() {
+  const { sub, name } = await getUser()
   return (
     <div>
       <MenuCliente nameuser={name} />

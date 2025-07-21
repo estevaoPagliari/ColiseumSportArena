@@ -2,8 +2,8 @@ import { ClientPage } from '@/app/components/clientpage/clientepage'
 import { MenuCliente } from '@/app/components/menu/menucliente'
 import { getUser } from '@/lib/auth'
 
-export default function ClientDashboard() {
-  const { sub, name } = getUser()
+export default async function ClientDashboard() {
+  const { sub, name } = await getUser()
   return (
     <div className="">
       <MenuCliente nameuser={name} />
