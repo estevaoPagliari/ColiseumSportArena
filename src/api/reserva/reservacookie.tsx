@@ -8,8 +8,8 @@ export interface HorarioSelecionado {
   recursoId: number
 }
 
-export function getReserva(): HorarioSelecionado[] {
-  const dados = cookies().get('selectedHorarios')?.value
+export async function getReserva(): Promise<HorarioSelecionado[]> {
+  const dados = (await cookies()).get('selectedHorarios')?.value
 
   if (!dados) {
     console.error('Erro: dados não encontrados') // Log de erro caso os dados não sejam encontrados
