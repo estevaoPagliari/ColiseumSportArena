@@ -16,7 +16,7 @@ export default async function Reserva() {
         <MenuCliente nameuser={name} />
       </div>
       <div className="pt-16">
-        {reservas.map((reserva, index) => (
+        {(await reservas).map((reserva, index) => (
           <ReservarPage
             key={index}
             horarioSelecionado={reserva}
