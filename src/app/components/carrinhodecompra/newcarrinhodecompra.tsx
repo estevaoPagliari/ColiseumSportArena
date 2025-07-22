@@ -78,7 +78,7 @@ export function NewCarrinhoDeCompras({
             >
               <div className="flex flex-col">
                 <span>{`Horário: ${horario.horario}`}</span>
-                <span>{`Data: ${horario.dia}/${horario.dia}/${horario.ano}`}</span>
+                <span>{`Data: ${horario.dia}/${horario.mes}/${horario.ano}`}</span>
               </div>
 
               <button
