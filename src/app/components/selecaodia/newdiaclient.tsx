@@ -72,11 +72,12 @@ export function NewDiaClient({
       if (dataSelecionada) {
         setLoading(true)
 
-        const { dia, mes } = dataSelecionada
+        const { dia, mes, ano } = dataSelecionada
         const response = await api.post('/buscaragendarecurso', {
           id,
           dia,
           mes,
+          ano,
           idrecurso,
         })
 
